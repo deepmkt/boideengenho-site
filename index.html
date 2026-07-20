@@ -43,6 +43,7 @@
   .logo .mk{color:var(--accent)}
   .nav-links{display:flex;gap:26px;list-style:none;align-items:center}
   .nav-links a{font-size:.9rem;font-weight:600;color:#582c22;transition:.25s;position:relative}
+  .nav-links a.nav-cta,.nav-links a.nav-cta:hover{color:#f5efe3}
   .nav-links a:hover{color:var(--accent)}
   .nav-links a[data-p]::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--accent);transition:width .3s var(--ease)}
   .nav-links a[data-p].act{color:var(--accent)}
@@ -220,6 +221,11 @@
   <symbol id="i-star" viewBox="0 0 24 24"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.12 2.12 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.12 2.12 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.12 2.12 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.12 2.12 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.12 2.12 0 0 0 1.597-1.16z"/></symbol>
   <symbol id="i-knife" viewBox="0 0 24 24"><path d="M2 2s6 2 9 5 5 9 5 9l6 6"/><path d="M11 7c-1 3-3 5-6 6l4 4c3-1 5-3 6-6"/></symbol>
   <symbol id="i-truck" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35a1 1 0 0 0-.78-.38H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></symbol>
+  <symbol id="i-ig" viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></symbol>
+  <symbol id="i-fb" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></symbol>
+  <symbol id="i-li" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></symbol>
+  <symbol id="i-yt" viewBox="0 0 24 24"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
   <symbol id="i-shop" viewBox="0 0 24 24"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/></symbol>
 </svg>
 <div class="stories" id="stories" aria-hidden="true"></div>
@@ -234,7 +240,8 @@
       <li class="link"><a href="#cine" data-p="0.56">Indústria</a></li>
       <li class="link"><a href="#cine" data-p="0.74">Certificação</a></li>
       <li class="link"><a href="#linhas">Produtos</a></li>
-      <li><a class="nav-cta" id="navWa" target="_blank" rel="noopener" href="#"><svg class="ico"><use href="#i-chat"/></svg>Fazer pedido</a></li>
+      <li class="link"><a href="#onde">Onde comprar</a></li>
+      <li><a class="nav-cta" id="navWa" target="_blank" rel="noopener" href="#"><svg class="ico"><use href="#i-chat"/></svg>Seja parceiro</a></li>
     </ul>
   </div>
 </header>
@@ -278,9 +285,9 @@
       <p>4 estrelas premium quality. Rastreabilidade da fazenda ao balcão — respeito que vira sabor.</p>
     </div>
     <div class="cap right" data-from="0.85" data-to="1.01">
-      <span class="eyebrow">Da fazenda à mesa</span>
-      <h2>Hoje, a mesa<br><span>é sua.</span></h2>
-      <p>Monte seu pedido em 1 minuto e finalize no nosso WhatsApp. ↓</p>
+      <span class="eyebrow">Para o seu negócio</span>
+      <h2>Esse padrão na<br><span>sua gôndola.</span></h2>
+      <p>Supermercado, açougue ou distribuidora? Seja um parceiro Boi de Engenho. ↓</p>
     </div>
 
     <div class="scroll-hint" id="hint"><div class="mouse"></div>Role para viver a história</div>
@@ -346,62 +353,83 @@
   </div>
 </section>
 
+<!-- ONDE COMPRAR (consumidor final) -->
+<section id="onde" style="padding:110px 24px;background:#fff;color:#2a1712">
+  <div style="max-width:1080px;margin:0 auto;text-align:center">
+    <span class="eyebrow" style="color:#8a5a2b">Para você, consumidor</span>
+    <h2 style="font-size:clamp(1.8rem,4vw + .5rem,3.2rem);color:#3a1f16;margin:12px 0 10px">Onde encontrar nossos cortes</h2>
+    <p style="color:#6d5a48;max-width:640px;margin:0 auto 34px">Nossa venda é para supermercados, açougues e distribuidores — você encontra o Boi de Engenho nos melhores pontos de venda de Alagoas e Pernambuco. Veja a lista sempre atualizada no destaque do nosso Instagram.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:48px">
+      <a class="btn btn-primary" target="_blank" rel="noopener" href="https://www.instagram.com/boideengenhocarnes/"><svg class="ico" style="stroke:#2a1712;width:20px;height:20px"><use href="#i-ig"/></svg> Pontos de venda no Instagram</a>
+      <a class="btn" style="border:2px solid var(--bordo);color:var(--bordo)" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Boi+de+Engenho+Macei%C3%B3"><svg class="ico" style="stroke:var(--bordo);width:20px;height:20px"><use href="#i-pin"/></svg> Ver no Google Maps</a>
+    </div>
+    <div class="vgrid" style="text-align:left">
+      <div class="vcard" style="background:var(--cream);border-color:var(--cream-2)"><svg class="ico"><use href="#i-pin"/></svg><h3 style="color:#3a1f16">Maceió — AL</h3><p style="color:#6d5a48">Vendas: (82) 9165-7779<br>Carlos Bastos: (82) 9660-7347<br>Vinicius Oliveira: (82) 9955-0093<br>Alan Mafra: (82) 9945-0360</p></div>
+      <div class="vcard" style="background:var(--cream);border-color:var(--cream-2)"><svg class="ico"><use href="#i-pin"/></svg><h3 style="color:#3a1f16">Recife — PE</h3><p style="color:#6d5a48">Maria Eduarda Almeida:<br>(81) 9684-7956</p></div>
+      <div class="vcard" style="background:var(--cream);border-color:var(--cream-2)"><svg class="ico"><use href="#i-shop"/></svg><h3 style="color:#3a1f16">Nossa sede</h3><p style="color:#6d5a48">R. Dr. José Milton Correia, 55c<br>Poço, Maceió — AL<br>(82) 3435-9147</p></div>
+    </div>
+  </div>
+</section>
+
 <!-- ===================== QUIZ ===================== -->
 <section class="quiz-sec" id="cotar">
   <div class="quiz-wrap">
     <div class="quiz-head">
-      <span class="eyebrow">Pedido em 1 minuto</span>
-      <h2>Monte seu churrasco</h2>
-      <p>Escolha as opções e envie tudo pronto pro nosso WhatsApp.</p>
+      <span class="eyebrow">Atendimento B2B</span>
+      <h2>Seja um parceiro</h2>
+      <p>Vendemos para supermercados, açougues, distribuidoras e food service. Preencha e fale com nosso comercial.</p>
     </div>
     <div class="quiz-card">
       <div class="qbar"><span id="qbar"></span></div>
       <span class="qstep-label" id="qstepLabel">Passo 1 de 5</span>
 
       <div class="step active" data-step="1">
-        <h3>O que você procura hoje?</h3>
-        <p class="hint">A gente monta a seleção certa pro seu momento.</p>
+        <h3>Qual é o seu negócio?</h3>
+        <p class="hint">Atendemos todo o varejo e atacado de carnes.</p>
         <div class="opts" id="optCC">
-          <div class="opt" data-val="Churrasco de fim de semana"><svg class="ico"><use href="#i-flame"/></svg><span class="txt"><b>Churrasco</b><small>Picanha, costela, linguiça e cia</small></span><span class="chk">✓</span></div>
-          <div class="opt" data-val="Carnes do dia a dia"><svg class="ico"><use href="#i-cal"/></svg><span class="txt"><b>Dia a dia</b><small>Cortes pro almoço da semana</small></span><span class="chk">✓</span></div>
-          <div class="opt" data-val="Linha Taurus Reserva (Angus premium)"><svg class="ico"><use href="#i-star"/></svg><span class="txt"><b>Taurus Reserva</b><small>Angus selecionadas, padrão premium</small></span><span class="chk">✓</span></div>
-          <div class="opt" data-val="Embutidos Facilita"><svg class="ico"><use href="#i-knife"/></svg><span class="txt"><b>Linha Facilita</b><small>Embutidos 100% da nossa carne</small></span><span class="chk">✓</span></div>
+          <div class="opt" data-val="Supermercado"><svg class="ico"><use href="#i-shop"/></svg><span class="txt"><b>Supermercado</b><small>Gôndola e açougue interno</small></span><span class="chk">✓</span></div>
+          <div class="opt" data-val="Açougue / casa de carnes"><svg class="ico"><use href="#i-knife"/></svg><span class="txt"><b>Açougue</b><small>Casa de carnes e boutiques</small></span><span class="chk">✓</span></div>
+          <div class="opt" data-val="Distribuidora / atacado"><svg class="ico"><use href="#i-truck"/></svg><span class="txt"><b>Distribuidora</b><small>Atacado e revenda</small></span><span class="chk">✓</span></div>
+          <div class="opt" data-val="Restaurante / food service"><svg class="ico"><use href="#i-flame"/></svg><span class="txt"><b>Food service</b><small>Restaurantes, hamburguerias, hotéis</small></span><span class="chk">✓</span></div>
         </div>
       </div>
 
       <div class="step" data-step="2">
-        <h3>Pra quantas pessoas?</h3>
-        <p class="hint">Ajuda a gente a sugerir a quantidade certa.</p>
+        <h3>Quais linhas interessam?</h3>
+        <p class="hint">Dá pra combinar mais de uma no atendimento.</p>
         <div class="opts" id="optPeriodo">
-          <div class="opt" data-val="Até 5 pessoas"><svg class="ico"><use href="#i-sun"/></svg><span class="txt"><b>Até 5</b><small>Almoço em família</small></span><span class="chk">✓</span></div>
-          <div class="opt" data-val="6 a 10 pessoas"><svg class="ico"><use href="#i-cal"/></svg><span class="txt"><b>6 a 10</b><small>Churrasco de sábado</small></span><span class="chk">✓</span></div>
-          <div class="opt" data-val="11 a 20 pessoas"><svg class="ico"><use href="#i-caldays"/></svg><span class="txt"><b>11 a 20</b><small>Reunião grande</small></span><span class="chk">✓</span></div>
-          <div class="opt" data-val="Mais de 20 / evento"><svg class="ico"><use href="#i-inf"/></svg><span class="txt"><b>Evento</b><small>Mais de 20 pessoas</small></span><span class="chk">✓</span></div>
+          <div class="opt" data-val="Linha Taurus Reserva (premium)"><svg class="ico"><use href="#i-star"/></svg><span class="txt"><b>Taurus Reserva</b><small>Angus premium, alto giro de valor</small></span><span class="chk">✓</span></div>
+          <div class="opt" data-val="Cortes especiais (+50 tipos)"><svg class="ico"><use href="#i-knife"/></svg><span class="txt"><b>Cortes especiais</b><small>+50 tipos, do premium ao dia a dia</small></span><span class="chk">✓</span></div>
+          <div class="opt" data-val="Linha Facilita (embutidos)"><svg class="ico"><use href="#i-leaf"/></svg><span class="txt"><b>Linha Facilita</b><small>Embutidos 100% carne própria</small></span><span class="chk">✓</span></div>
+          <div class="opt" data-val="Mix completo"><svg class="ico"><use href="#i-inf"/></svg><span class="txt"><b>Mix completo</b><small>Quero conhecer todo o portfólio</small></span><span class="chk">✓</span></div>
         </div>
       </div>
 
       <div class="step" data-step="3">
-        <h3>Como prefere receber?</h3>
-        <p class="hint">Estamos no Poço, em Maceió.</p>
-        <div class="opts two" id="optModalidade">
-          <div class="opt" data-val="Entrega em Maceió"><svg class="ico"><use href="#i-truck"/></svg><span class="txt"><b>Entrega</b><small>Receba em casa</small></span><span class="chk">✓</span></div>
-          <div class="opt" data-val="Retirada na loja (Poço)"><svg class="ico"><use href="#i-shop"/></svg><span class="txt"><b>Retirada</b><small>R. Dr. José Milton Correia, 55c</small></span><span class="chk">✓</span></div>
+        <h3>Frequência de compra?</h3>
+        <p class="hint">Pra dimensionar seu atendimento comercial.</p>
+        <div class="opts" id="optModalidade">
+          <div class="opt" data-val="Reposição semanal"><svg class="ico"><use href="#i-sun"/></svg><span class="txt"><b>Semanal</b><small>Reposição contínua</small></span><span class="chk">✓</span></div>
+          <div class="opt" data-val="Reposição quinzenal"><svg class="ico"><use href="#i-cal"/></svg><span class="txt"><b>Quinzenal</b><small>Volume programado</small></span><span class="chk">✓</span></div>
+          <div class="opt" data-val="Reposição mensal"><svg class="ico"><use href="#i-caldays"/></svg><span class="txt"><b>Mensal</b><small>Pedidos maiores</small></span><span class="chk">✓</span></div>
+          <div class="opt" data-val="Ainda avaliando"><svg class="ico"><use href="#i-help"/></svg><span class="txt"><b>Avaliando</b><small>Quero entender condições</small></span><span class="chk">✓</span></div>
         </div>
       </div>
 
       <div class="step" data-step="4">
-        <h3>Seus dados</h3>
-        <p class="hint">Pra gente já te atender com o pedido encaminhado.</p>
-        <div class="field"><label>Nome</label><input id="fNome" type="text" placeholder="Seu nome"></div>
+        <h3>Dados do seu negócio</h3>
+        <p class="hint">Nosso comercial já te chama com a ficha pronta.</p>
+        <div class="field"><label>Seu nome</label><input id="fNome" type="text" placeholder="Nome do responsável"></div>
+        <div class="field"><label>Nome do estabelecimento</label><input id="fEmpresa" type="text" placeholder="Ex: Supermercado Bom Preço"></div>
         <div class="field"><label>WhatsApp (com DDD)</label><input id="fZap" type="tel" inputmode="numeric" placeholder="(82) 90000-0000"></div>
-        <div class="field"><label>Bairro / cidade</label><input id="fCidade" type="text" placeholder="Ex: Maceió — Ponta Verde"></div>
+        <div class="field"><label>Cidade</label><input id="fCidade" type="text" placeholder="Ex: Maceió — AL"></div>
       </div>
 
       <div class="step" data-step="5">
         <h3>Confira e envie</h3>
-        <p class="hint">Vamos abrir seu WhatsApp com o pedido pronto pra finalizar.</p>
+        <p class="hint">Vamos abrir o WhatsApp comercial com sua ficha de parceiro.</p>
         <ul class="review" id="review"></ul>
-        <a id="waBtn" class="btn btn-wa" target="_blank" rel="noopener"><svg class="ico"><use href="#i-chat"/></svg> Enviar pedido no WhatsApp</a>
+        <a id="waBtn" class="btn btn-wa" target="_blank" rel="noopener"><svg class="ico"><use href="#i-chat"/></svg> Falar com o comercial</a>
       </div>
 
       <!-- NAV -->
@@ -413,10 +441,22 @@
 </section>
 
 <footer>
-  <div class="logo">Boi de <span class="mk">Engenho</span></div>
-  <p>Carnes especiais em Maceió — AL · R. Dr. José Milton Correia, 55c — Poço · @boideengenhocarnes</p>
-  <p style="margin-top:8px;opacity:.6">Do pasto à sua mesa, desde 2016.</p>
+  <div style="max-width:1080px;margin:0 auto;text-align:center">
+    <img src="https://boideengenho.com.br/app/uploads/2024/05/1-1.png" alt="Boi de Engenho" style="height:84px;margin-bottom:16px;filter:drop-shadow(0 2px 8px rgba(0,0,0,.4))">
+    <p>Cooperativa Agropecuária Boi de Engenho · R. Dr. José Milton Correia, 55c — Poço, Maceió — AL · (82) 3435-9147</p>
+    <div style="display:flex;gap:18px;justify-content:center;margin:22px 0 10px">
+      <a target="_blank" rel="noopener" href="https://www.instagram.com/boideengenhocarnes/" aria-label="Instagram"><svg class="ico" style="stroke:var(--accent)"><use href="#i-ig"/></svg></a>
+      <a target="_blank" rel="noopener" href="https://www.facebook.com/Boideengenho/" aria-label="Facebook"><svg class="ico" style="stroke:var(--accent)"><use href="#i-fb"/></svg></a>
+      <a target="_blank" rel="noopener" href="https://www.linkedin.com/company/boi-de-engenho" aria-label="LinkedIn"><svg class="ico" style="stroke:var(--accent)"><use href="#i-li"/></svg></a>
+      <a target="_blank" rel="noopener" href="https://www.youtube.com/@boideengenho/" aria-label="YouTube"><svg class="ico" style="stroke:var(--accent)"><use href="#i-yt"/></svg></a>
+      <a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Boi+de+Engenho+Macei%C3%B3" aria-label="Google Maps"><svg class="ico" style="stroke:var(--accent)"><use href="#i-pin"/></svg></a>
+      <a target="_blank" rel="noopener" href="https://boideengenho.com.br/" aria-label="Site oficial"><svg class="ico" style="stroke:var(--accent)"><use href="#i-shop"/></svg></a>
+    </div>
+    <p style="margin-top:8px;opacity:.6">Do pasto à sua mesa, desde 2016 · @boideengenhocarnes</p>
+  </div>
 </footer>
+
+<a href="#" id="waFloat" target="_blank" rel="noopener" aria-label="WhatsApp comercial" style="position:fixed;bottom:24px;right:24px;z-index:400;width:60px;height:60px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(37,211,102,.45)"><svg class="ico" style="stroke:#fff;width:30px;height:30px"><use href="#i-chat"/></svg></a>
 
 <script>
   /* ============ CONFIG ============ */
@@ -424,13 +464,18 @@
   // O AD gerado no Higgsfield (Kling 3.0, 10s). Se você baixar o MP4 e salvar como
   // film.mp4 na pasta do site, ele tem prioridade (carrega mais rápido e não depende do CDN).
   const FILM_LOCAL  = "film.mp4";
-  // O filme em 2 ATOS (Higgsfield): A = pasto→confinamento→indústria • B = indústria→mesa
-  const FILM_A = "https://d8j0ntlcm91z4.cloudfront.net/user_3AWtibA40kU8CXuL4OPvkUq3Ruq/hf_20260720_172423_9959d72d-e012-4b56-96d4-5a3068f7df25.mp4";
-  const FILM_B = "https://d8j0ntlcm91z4.cloudfront.net/user_3AWtibA40kU8CXuL4OPvkUq3Ruq/hf_20260720_172425_92c9e5c7-ac5c-4b74-a5a3-d158bb7c74c8.mp4";
-  const SPLIT = 0.5; // fração do scroll onde o ato B assume
-  const HERO_REMOTE_ = "https://d8j0ntlcm91z4.cloudfront.net/user_3AWtibA40kU8CXuL4OPvkUq3Ruq/hf_20260720_155620_f7045c03-186f-4763-8345-ad7db1629011.png";
+  // O filme em 2 ATOS. Caminhos locais passam pelo proxy da Vercel (same-origin →
+  // carregamento como BLOB = buffer completo = scrub sem travar). CDN fica de reserva.
+  const IS_MOBILE = matchMedia('(max-width:760px)').matches || innerHeight>innerWidth;
+  const LOCAL_A = IS_MOBILE ? "/film-a-mob.mp4" : "/film-a.mp4";
+  const LOCAL_B = IS_MOBILE ? "/film-b-mob.mp4" : "/film-b.mp4";
+  const CDN_A  = IS_MOBILE ? "https://d8j0ntlcm91z4.cloudfront.net/user_3AWtibA40kU8CXuL4OPvkUq3Ruq/hf_20260720_180052_7003de9c-77f3-4ea3-8ef0-f95beadd8d2c.mp4" : "https://d8j0ntlcm91z4.cloudfront.net/user_3AWtibA40kU8CXuL4OPvkUq3Ruq/hf_20260720_180050_f8f18d2f-e166-4aa1-bbcf-e4a161b3844e.mp4";
+  const CDN_B  = IS_MOBILE ? "https://d8j0ntlcm91z4.cloudfront.net/user_3AWtibA40kU8CXuL4OPvkUq3Ruq/hf_20260720_180350_692fe81b-b607-4ec5-b7d9-c4fd7bb9e50e.mp4" : "https://d8j0ntlcm91z4.cloudfront.net/user_3AWtibA40kU8CXuL4OPvkUq3Ruq/hf_20260720_172425_92c9e5c7-ac5c-4b74-a5a3-d158bb7c74c8.mp4";
+  const SPLIT = 0.5;
+  const HERO_REMOTE_ = IS_MOBILE ? "https://d8j0ntlcm91z4.cloudfront.net/user_3AWtibA40kU8CXuL4OPvkUq3Ruq/hf_20260720_175446_f628d828-b3d3-45f0-be35-5c6672812a46.png"
+                                 : "https://d8j0ntlcm91z4.cloudfront.net/user_3AWtibA40kU8CXuL4OPvkUq3Ruq/hf_20260720_175316_4b2a0748-029e-4093-9c49-17fc79798c35.png";
   const HERO_LOCAL  = "hero.jpg";
-  const HERO_REMOTE = "https://d8j0ntlcm91z4.cloudfront.net/user_3AWtibA40kU8CXuL4OPvkUq3Ruq/hf_20260720_155620_f7045c03-186f-4763-8345-ad7db1629011.png";
+  const HERO_REMOTE = "https://d8j0ntlcm91z4.cloudfront.net/user_3AWtibA40kU8CXuL4OPvkUq3Ruq/hf_20260720_175316_4b2a0748-029e-4093-9c49-17fc79798c35.png";
 
   /* ============ FILM SCRUB ENGINE (técnica da skill scroll-world) ============ */
   const cine=document.getElementById('cine');
@@ -462,11 +507,26 @@
     },{once:true});
   }
   arm(film,'A');arm(film2,'B');
-  film.src=FILM_A; film2.src=FILM_B; film.load(); film2.load();
+  async function loadFilm(v, localPath, cdnUrl){
+    if(location.protocol.startsWith('http')){
+      try{
+        const r=await fetch(localPath);
+        if(!r.ok) throw 0;
+        v.src=URL.createObjectURL(await r.blob());  // blob = 100% buffer, zero engasgo
+        return;
+      }catch(e){}
+    }
+    v.src=cdnUrl; v.load();  // reserva: direto do CDN (byte-range)
+  }
+  // Ato A primeiro (primeira dobra rápida); B carrega logo atrás em paralelo
+  loadFilm(film, LOCAL_A, CDN_A).then(()=>loadFilm(film2, LOCAL_B, CDN_B));
 
   // Botão do menu → direto pro WhatsApp
   document.getElementById('navWa').href='https://wa.me/'+WHATSAPP+'?text='+
-    encodeURIComponent('Olá! Vim pelo site do Boi de Engenho e quero fazer um pedido.');
+    encodeURIComponent('Olá! Tenho um estabelecimento e quero vender Boi de Engenho.');
+
+  document.getElementById('waFloat').href='https://wa.me/'+WHATSAPP+'?text='+
+    encodeURIComponent('Olá! Tenho um estabelecimento e quero vender Boi de Engenho.');
 
   // Fases do scroll no menu
   const phaseLinks=[...document.querySelectorAll('.nav-links a[data-p]')];
@@ -561,7 +621,7 @@
   document.querySelectorAll('.vcard').forEach((c,i)=>{c.style.transitionDelay=(i*0.1)+'s';vio.observe(c)});
 
   /* ============ QUIZ ============ */
-  const state={ccPref:'',periodo:'',modalidade:'',nome:'',zap:'',cidade:''};
+  const state={ccPref:'',periodo:'',modalidade:'',nome:'',empresa:'',zap:'',cidade:''};
   let step=1; const TOTAL=5;
   const stepsEl=[...document.querySelectorAll('.step')];
   const nextBtn=document.getElementById('nextBtn');
@@ -587,13 +647,13 @@
     });
   }
   bindOpts('optCC','ccPref'); bindOpts('optPeriodo','periodo'); bindOpts('optModalidade','modalidade');
-  ['fNome','fZap','fCidade'].forEach(id=>document.getElementById(id).addEventListener('input',validate));
+  ['fNome','fEmpresa','fZap','fCidade'].forEach(id=>document.getElementById(id).addEventListener('input',validate));
 
   function stepValid(s){
     if(s===1)return !!state.ccPref;
     if(s===2)return !!state.periodo;
     if(s===3)return !!state.modalidade;
-    if(s===4)return fNome.value.trim()&&fZap.value.trim();
+    if(s===4)return fNome.value.trim()&&fEmpresa.value.trim()&&fZap.value.trim();
     return true;
   }
   function validate(){nextBtn.disabled=!stepValid(step);}
@@ -607,31 +667,32 @@
     validate();
   }
   nextBtn.addEventListener('click',()=>{
-    if(step===4){state.nome=fNome.value.trim();state.zap=fZap.value.trim();state.cidade=fCidade.value.trim();}
+    if(step===4){state.nome=fNome.value.trim();state.empresa=fEmpresa.value.trim();state.zap=fZap.value.trim();state.cidade=fCidade.value.trim();}
     if(step<TOTAL&&stepValid(step)){step++;render();document.getElementById('cotar').scrollIntoView({behavior:'smooth'});}
   });
   prevBtn.addEventListener('click',()=>{if(step>1){step--;render();document.getElementById('cotar').scrollIntoView({behavior:'smooth'});}});
 
   function buildReview(){
     const rows=[
-      ['Seleção',state.ccPref],
-      ['Pessoas',state.periodo],['Recebimento',state.modalidade],
-      ['Nome',state.nome],['WhatsApp',state.zap],['Bairro',state.cidade||'—']
+      ['Negócio',state.ccPref],
+      ['Linhas',state.periodo],['Frequência',state.modalidade],
+      ['Responsável',state.nome],['Estabelecimento',state.empresa],
+      ['WhatsApp',state.zap],['Cidade',state.cidade||'—']
     ];
     document.getElementById('review').innerHTML=rows.map(x=>`<li><span>${x[0]}</span><b>${x[1]||'—'}</b></li>`).join('');
     const msg=
-`Olá! Vim pelo site do Boi de Engenho e quero montar um pedido.
+`Olá! Tenho um estabelecimento e quero vender Boi de Engenho.
 
-• Seleção: ${state.ccPref}
-• Pessoas: ${state.periodo}
-• Recebimento: ${state.modalidade}
+• Tipo de negócio: ${state.ccPref}
+• Linhas de interesse: ${state.periodo}
+• Frequência de compra: ${state.modalidade}
 
-Meus dados:
-• Nome: ${state.nome}
+• Responsável: ${state.nome}
+• Estabelecimento: ${state.empresa}
 • WhatsApp: ${state.zap}
-• Bairro: ${state.cidade||'-'}
+• Cidade: ${state.cidade||'-'}
 
-Podem me ajudar com sugestões e valores?`;
+Podem me apresentar as condições comerciais?`;
     document.getElementById('waBtn').href='https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(msg);
   }
   render();

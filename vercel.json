@@ -1,0 +1,11 @@
+{
+  "rewrites": [
+    {"source": "/film-a.mp4",     "destination": "https://d8j0ntlcm91z4.cloudfront.net/user_3AWtibA40kU8CXuL4OPvkUq3Ruq/hf_20260720_180050_f8f18d2f-e166-4aa1-bbcf-e4a161b3844e.mp4"},
+    {"source": "/film-b.mp4",     "destination": "https://d8j0ntlcm91z4.cloudfront.net/user_3AWtibA40kU8CXuL4OPvkUq3Ruq/hf_20260720_172425_92c9e5c7-ac5c-4b74-a5a3-d158bb7c74c8.mp4"},
+    {"source": "/film-a-mob.mp4", "destination": "https://d8j0ntlcm91z4.cloudfront.net/user_3AWtibA40kU8CXuL4OPvkUq3Ruq/hf_20260720_180052_7003de9c-77f3-4ea3-8ef0-f95beadd8d2c.mp4"},
+    {"source": "/film-b-mob.mp4", "destination": "https://d8j0ntlcm91z4.cloudfront.net/user_3AWtibA40kU8CXuL4OPvkUq3Ruq/hf_20260720_180350_692fe81b-b607-4ec5-b7d9-c4fd7bb9e50e.mp4"}
+  ],
+  "headers": [
+    {"source": "/(.*)\\.mp4", "headers": [{"key": "Cache-Control", "value": "public, max-age=31536000, immutable"}]}
+  ]
+}
