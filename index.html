@@ -513,6 +513,7 @@
         const r=await fetch(localPath);
         if(!r.ok) throw 0;
         v.src=URL.createObjectURL(await r.blob());  // blob = 100% buffer, zero engasgo
+        v.load();
         return;
       }catch(e){}
     }
