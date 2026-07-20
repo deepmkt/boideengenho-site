@@ -59,7 +59,7 @@
   #cine{height:560vh;position:relative}
   .stage{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;background:#000}
   .film-el,.hero-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 58%}
-  .film-el{opacity:0;transition:opacity .18s linear}
+  .film-el{opacity:0;transition:opacity .35s linear}
   .film-el.on{opacity:1}
   /* fallback zoom (only when film.mp4 is absent) */
   .zoomwrap{position:absolute;inset:0;transform-origin:54% 62%;will-change:transform}
@@ -748,28 +748,60 @@
   // Aqui o rate fica ESTÁVEL (só muda em degraus com histerese), pra frente o vídeo
   // TOCA de verdade; recuo tem tolerância maior + seek quantizado (menos seeks em
   // rajada quando o dedo "quica" no scroll); atraso grande vira UM pulo seco.
-  const FWD_ON  = IS_MOBILE ? 0.06 : 0.05;   // liga o play
-  const BACKTOL = IS_MOBILE ? 0.28 : 0.12;   // tolerância antes de seek pra trás
-  const JUMPGAP = 2.2;                        // atraso enorme: pula em vez de correr atrás
-  function qSeek(v,t){ snapSeek(v, IS_MOBILE ? Math.max(0.01,Math.round(t*2)/2) : t); }
+  function qSeek(v,t){
+    const q = IS_MOBILE ? Math.max(0.01,Math.round(t*2)/2) : t;
+    snapSeek(v, Math.min(q, (v.duration||9e9)-0.15));  // nunca cai em cima do fim (vira 'ended')
+  }
+  // Motor v5 — mobile = "cinema contínuo":
+  // O congela-e-tranca vinha do acoplamento apertado (pausar sempre que o filme
+  // alcança o scroll). Aqui o filme TOCA sem parar a 1x; o scroll é só um guia
+  // frouxo com folga de ±1.4s. Pausa é rara e longa (segura num frame bonito),
+  // nunca o liga-desliga que parece engasgo. Desktop mantém o scrub preciso.
   function driveTo(v,target){
     const gap=target-v.currentTime;
     const now=performance.now();
-    if(gap>JUMPGAP){ if(!v.paused)v.pause(); qSeek(v,target); v._stall=now; return; }
-    if(gap>FWD_ON){
-      const want=Math.min(2,Math.max(IS_MOBILE?1:0.5,gap*1.3));
-      if(Math.abs(v.playbackRate-want)>0.3)v.playbackRate=want;  // rate em degraus = decode liso
-      if(v.paused)v.play().catch(()=>{});
-      // anti-stall: se o vídeo não anda (play bloqueado / buffer seco), destrava com seek
-      if(v.currentTime!==v._lastT){v._lastT=v.currentTime;v._stall=now;}
-      else if(now-(v._stall||0)>450&&gap>0.4){qSeek(v,target);v._stall=now;}
-    }else if(gap<-BACKTOL){
-      if(!v.paused)v.pause();
-      qSeek(v,target);
-    }else if(gap<0.02){
-      if(!v.paused)v.pause();
-      v._stall=now;
+    // fim do filme: play() em vídeo 'ended' REINICIA do zero (spec) — nunca deixe
+    if((v.ended||v.currentTime>=v.duration-0.06)&&gap<=0.05){ if(!v.paused)v.pause(); return; }
+    if(!IS_MOBILE){
+      if(gap>2.2){ if(!v.paused)v.pause(); qSeek(v,target); v._stall=now; return; }
+      if(gap>0.05){
+        const want=Math.min(2,Math.max(0.5,gap*1.3));
+        if(Math.abs(v.playbackRate-want)>0.3)v.playbackRate=want;
+        if(v.paused)v.play().catch(()=>{});
+        if(v.currentTime!==v._lastT){v._lastT=v.currentTime;v._stall=now;}
+        else if(now-(v._stall||0)>450&&gap>0.4){qSeek(v,target);v._stall=now;}
+      }else if(gap<-0.12){
+        if(!v.paused)v.pause(); qSeek(v,target);
+      }else if(gap<0.02){ if(!v.paused)v.pause(); v._stall=now; }
+      return;
     }
+    // ---- mobile: o rate ACOMPANHA a velocidade do scroll (nunca busca frame) ----
+    // O filme anda no ritmo do dedo: velocidade do alvo estimada + correção suave
+    // do atraso, quantizada em degraus de 0.25x (decode liso). Parou de rolar?
+    // Câmera lenta de cortesia e, só depois de muito adiantado, segura o frame.
+    // velocidade do alvo medida em janela de 250ms (robusta a eventos discretos)
+    if(v._velT0===undefined){v._velT0=now;v._velP0=target;v._vel=0;}
+    else if(now-v._velT0>250){
+      v._vel=Math.max(0,(target-v._velP0)/((now-v._velT0)/1000));
+      v._velT0=now;v._velP0=target;
+    }
+    if(gap>2.4 || gap<-3.2){ if(!v.paused)v.pause(); qSeek(v,target); v._hold=false; v._stall=now; return; }
+    if(v._hold){
+      if(gap>-1.3){ v._hold=false; }
+      else { if(!v.paused)v.pause(); return; }
+    }else if(gap<-2.0){ v._hold=true; if(!v.paused)v.pause(); return; }
+    let want;
+    if(v._vel>0.05){
+      want=Math.min(2,Math.max(0.5,Math.round((v._vel+Math.max(gap,0)*0.5+Math.min(gap,0)*0.25)*4)/4));
+    }else if(gap>0.12){
+      want=0.65; // parado mas o filme está atrás: aproxima em câmera lenta e assenta
+    }else{
+      if(!v.paused)v.pause(); v._stall=now; return; // parado e em dia: descansa no frame
+    }
+    if(Math.abs(v.playbackRate-want)>=0.2)v.playbackRate=want;
+    if(v.paused)v.play().catch(()=>{});
+    if(v.currentTime!==v._lastT){v._lastT=v.currentTime;v._stall=now;}
+    else if(now-(v._stall||0)>500&&gap>0.5){qSeek(v,target);v._stall=now;}
   }
   function rafLoop(){
     if(filmReady){
