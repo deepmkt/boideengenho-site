@@ -254,6 +254,7 @@
   <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
   <symbol id="i-shop" viewBox="0 0 24 24"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/></symbol>
 </svg>
+<canvas id="fire" aria-hidden="true" style="position:fixed;inset:0;z-index:380;pointer-events:none;mix-blend-mode:screen"></canvas>
 <div class="stories" id="stories" aria-hidden="true"></div>
 
 <header>
@@ -542,14 +543,17 @@
   heroPhoto.src=HERO_REMOTE;
   film.poster=HERO_REMOTE;
 
-  let primed=false;
+  // Priming por vídeo: insiste a cada gesto até o play ser aceito (iOS Low Power etc.)
+  // e não marca como pronto se o src ainda não chegou (bug clássico do "travado no mobile").
   function primeFilm(){
-    if(primed)return;
-    [film,film2].forEach(v=>{if(!v.src)return;const p=v.play();
-      if(p&&p.then)p.then(()=>{v.pause();try{v.currentTime=0.01;}catch(e){}}).catch(()=>{});});
-    primed=true;
+    [film,film2].forEach(v=>{
+      if(v._primed||!v.src)return;
+      const p=v.play();
+      if(p&&p.then)p.then(()=>{v._primed=true;if(!filmReady)v.pause();try{if(v.currentTime<0.05)v.currentTime=0.01;}catch(e){}}).catch(()=>{});
+      else{v._primed=true;}
+    });
   }
-  ['touchstart','click','scroll'].forEach(ev=>window.addEventListener(ev,primeFilm,{once:true,passive:true}));
+  ['touchstart','pointerdown','click','scroll'].forEach(ev=>window.addEventListener(ev,primeFilm,{passive:true}));
 
   function arm(v,flag){
     v.addEventListener('loadedmetadata',()=>{
@@ -561,10 +565,17 @@
   arm(film,'A');arm(film2,'B');
   async function loadFilm(v, localPath, cdnUrl){
     if(location.protocol.startsWith('http')){
+      if(IS_MOBILE){
+        // Mobile: streaming direto pelo proxy (byte-range + cache edge). Blob exigia
+        // baixar o arquivo INTEIRO antes do primeiro frame = vídeo "travado" em 4G.
+        v.onerror=()=>{v.onerror=null;v.src=cdnUrl;v.load();};
+        v.src=localPath; v.load();
+        return;
+      }
       try{
         const r=await fetch(localPath);
         if(!r.ok) throw 0;
-        v.src=URL.createObjectURL(await r.blob());  // blob = 100% buffer, zero engasgo
+        v.src=URL.createObjectURL(await r.blob());  // desktop: blob = 100% buffer
         v.load();
         return;
       }catch(e){}
@@ -594,6 +605,47 @@
     const total=cine.offsetHeight-innerHeight;
     window.scrollTo({top:cine.offsetTop+pp*total+2,behavior:'smooth'});
   }));
+
+  // FOGUINHO NO CURSOR (brasas — só desktop, pausa em aba oculta)
+  (function(){
+    if(!matchMedia('(pointer:fine)').matches)return;
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    const cv=document.getElementById('fire');if(!cv)return;
+    const cx=cv.getContext('2d');
+    let W=innerWidth,H=innerHeight;cv.width=W;cv.height=H;
+    addEventListener('resize',()=>{W=innerWidth;H=innerHeight;cv.width=W;cv.height=H});
+    const em=[];const MAX=90;
+    let mx=-99,my=-99,lx=-99,ly=-99;
+    addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;},{passive:true});
+    const CORES=[[255,190,90],[240,140,50],[216,110,40],[200,70,30]];
+    function spawn(){
+      if(mx<0)return;
+      const moved=Math.hypot(mx-lx,my-ly);lx=mx;ly=my;
+      const n=Math.min(3,1+(moved>4?2:0));
+      for(let i=0;i<n&&em.length<MAX;i++){
+        const c=CORES[(Math.random()*CORES.length)|0];
+        em.push({x:mx+(Math.random()-.5)*8,y:my+(Math.random()-.5)*8,
+          vx:(Math.random()-.5)*.5,vy:-(Math.random()*1.4+.6),
+          s:Math.random()*2.4+1,life:1,decay:Math.random()*.02+.015,c});
+      }
+    }
+    (function loop(){
+      requestAnimationFrame(loop);
+      if(document.hidden)return;
+      spawn();
+      cx.clearRect(0,0,W,H);
+      for(let i=em.length-1;i>=0;i--){
+        const p=em[i];
+        p.x+=p.vx+Math.sin(p.life*9)*.4;p.y+=p.vy;p.vy*=.985;p.life-=p.decay;
+        if(p.life<=0){em.splice(i,1);continue;}
+        const a=p.life*.65,r=p.s*(0.6+p.life*0.7);
+        const g=cx.createRadialGradient(p.x,p.y,0,p.x,p.y,r*3);
+        g.addColorStop(0,`rgba(${p.c[0]},${p.c[1]},${p.c[2]},${a})`);
+        g.addColorStop(1,'rgba(200,60,20,0)');
+        cx.fillStyle=g;cx.beginPath();cx.arc(p.x,p.y,r*3,0,7);cx.fill();
+      }
+    })();
+  })();
 
   // SPLIT-TEXT: envolve cada palavra preservando <br> e <span> de destaque
   function splitWords(el){
@@ -669,12 +721,34 @@
     const total=cine.offsetHeight-innerHeight;
     return Math.min(Math.max(-rect.top/total,0),1);
   }
-  // Motor híbrido em 2 atos: o scroll define o alvo global; cada ato toca até concluir.
-  function driveTo(v,localT){
-    const gap=localT-v.currentTime;
-    if(gap>0.2){v.playbackRate=Math.min(4,1+gap*1.2);if(v.paused)v.play().catch(()=>{});}
-    else{if(!v.paused)v.pause();
-      if(Math.abs(gap)>0.033){try{v.currentTime=v.currentTime+gap*0.22;}catch(e){}}}
+  // Motor v3 — anti-engasgo para vídeos de GOP longo:
+  // à frente NUNCA busca (só toca, com rate proporcional); atrás faz UM seek seco
+  // por vez e espera concluir. Micro-seeks em rajada eram a causa da travada.
+  function snapSeek(v,target){
+    if(v._seeking)return;
+    v._seeking=true;
+    const clear=()=>{v._seeking=false;clearTimeout(v._skTo);};
+    v.addEventListener('seeked',clear,{once:true});
+    v._skTo=setTimeout(clear,600);  // relógio de segurança: 'seeked' perdido nunca trava o motor
+    try{ if(v.fastSeek)v.fastSeek(target); else v.currentTime=target; }
+    catch(e){ clear(); }
+  }
+  function driveTo(v,target){
+    const gap=target-v.currentTime;
+    const now=performance.now();
+    if(gap>0.05){
+      v.playbackRate=Math.min(2,Math.max(0.5,gap*1.4));  // iOS aceita até 2x com áudio mudo
+      if(v.paused)v.play().catch(()=>{});
+      // anti-stall: se o vídeo não anda (play bloqueado / buffer seco), destrava com seek
+      if(v.currentTime!==v._lastT){v._lastT=v.currentTime;v._stall=now;}
+      else if(now-(v._stall||0)>450&&gap>0.4){snapSeek(v,target);v._stall=now;}
+    }else if(gap<-0.12){
+      if(!v.paused)v.pause();
+      snapSeek(v,target);
+    }else{
+      if(!v.paused)v.pause();
+      v._stall=now;
+    }
   }
   function rafLoop(){
     if(filmReady){
