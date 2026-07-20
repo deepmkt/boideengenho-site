@@ -114,6 +114,11 @@
   .pos b{display:block;color:#3a1f16;font-size:.98rem}
   .pos small{color:#7d6b57;font-size:.84rem;line-height:1.4}
   @media(max-width:760px){.pos-grid{grid-template-columns:1fr}}
+  .pcard,.pos,.cert-grid>*{opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+  .pcard.in,.pos.in,.cert-grid>.in{opacity:1;transform:none}
+  .pos.in:hover{transform:translateX(4px)}
+  .isec{padding:110px 24px}
+  @media(prefers-reduced-motion:reduce){.pcard,.pos,.cert-grid>*{opacity:1!important;transform:none!important}}
   .pcard{background:#fff;border:1px solid var(--cream-2);border-radius:18px;overflow:hidden;text-align:left;box-shadow:0 14px 40px rgba(58,31,22,.08);transition:transform .35s var(--ease)}
   .pcard:hover{transform:translateY(-6px)}
   .pcard img{width:100%;height:230px;object-fit:cover;display:block}
@@ -201,6 +206,14 @@
     .head h2{font-size:clamp(1.8rem,7vw,2.4rem)}
     .btn{width:auto}
     .qnav{position:sticky;bottom:0;background:var(--card);padding:10px 0 calc(6px + env(safe-area-inset-bottom));margin:28px -16px -24px;padding-left:16px;padding-right:16px;border-top:1px solid var(--line)}
+  }
+  @media(max-width:760px){
+    .isec{padding:68px 18px}
+    header{padding:8px 0}
+    .logo img{height:40px!important}
+    .stories{top:88px}
+    #waFloat{bottom:calc(16px + env(safe-area-inset-bottom))!important;width:54px!important;height:54px!important}
+    .pcard img{height:190px}
   }
   @media(max-width:480px){
     .logo{font-size:1.35rem}
@@ -323,7 +336,7 @@
 </section>
 
 <!-- LINHAS DE PRODUTOS (fotos oficiais) -->
-<section id="linhas" style="padding:110px 24px;background:#fff;color:#2a1712">
+<section id="linhas" class="isec" style="background:#fff;color:#2a1712">
   <div style="max-width:1080px;margin:0 auto;text-align:center">
     <span class="eyebrow" style="color:#8a5a2b">Nossos produtos</span>
     <h2 style="font-size:clamp(1.8rem,4vw + .5rem,3.2rem);color:#3a1f16;margin:12px 0 10px">Mais de 50 cortes, da iguaria ao dia a dia</h2>
@@ -337,7 +350,7 @@
 </section>
 
 <!-- CERTIFICAÇÃO (foto real com o selo) -->
-<section id="certificacao" style="padding:110px 24px;background:var(--bordo);color:#f7f2e8">
+<section id="certificacao" class="isec" style="background:var(--bordo);color:#f7f2e8">
   <div style="max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center" class="cert-grid">
     <img src="https://boideengenho.com.br/app/uploads/2024/07/7a4bda2d-181b-46f1-8ab5-93b8c9824f95-compressed-scaled.jpg" alt="Selo Brazil Beef Quality 4 estrelas" loading="lazy" style="width:100%;border-radius:18px;box-shadow:0 24px 60px rgba(0,0,0,.35)">
     <div>
@@ -350,7 +363,7 @@
 </section>
 
 <!-- DA FAZENDA À MESA (estrutura real) -->
-<section id="historia" style="padding:110px 24px;background:var(--cream);color:#2a1712">
+<section id="historia" class="isec" style="background:var(--cream);color:#2a1712">
   <div style="max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center" class="cert-grid">
     <div>
       <span class="eyebrow" style="color:#8a5a2b">Nossa história</span>
@@ -358,9 +371,9 @@
       <p style="color:#6d5a48;margin-bottom:14px">Nascemos em 2016 como uma cooperativa que honra o legado dos bovinos trazidos aos engenhos do Nordeste. Em 2019, realizamos o maior sonho: a nossa própria indústria de beneficiamento.</p>
       <p style="color:#6d5a48">Hoje, três gerações de produtores rurais assinam toda a cadeia — criação, manejo, beneficiamento e entrega.</p>
       <div style="display:flex;gap:36px;margin-top:26px;flex-wrap:wrap">
-        <div><div style="font-family:'Playfair Display';font-size:2.2rem;font-weight:800;color:#8a5a2b">2016</div><div style="font-size:.85rem;color:#6d5a48">cooperativa fundada</div></div>
-        <div><div style="font-family:'Playfair Display';font-size:2.2rem;font-weight:800;color:#8a5a2b">+50</div><div style="font-size:.85rem;color:#6d5a48">tipos de cortes</div></div>
-        <div><div style="font-family:'Playfair Display';font-size:2.2rem;font-weight:800;color:#8a5a2b">3</div><div style="font-size:.85rem;color:#6d5a48">gerações no campo</div></div>
+        <div><div class="bignum" data-n="2016" style="font-family:'Playfair Display';font-size:2.2rem;font-weight:800;color:#8a5a2b">2016</div><div style="font-size:.85rem;color:#6d5a48">cooperativa fundada</div></div>
+        <div><div class="bignum" data-n="50" data-pre="+" style="font-family:'Playfair Display';font-size:2.2rem;font-weight:800;color:#8a5a2b">+50</div><div style="font-size:.85rem;color:#6d5a48">tipos de cortes</div></div>
+        <div><div class="bignum" data-n="3" style="font-family:'Playfair Display';font-size:2.2rem;font-weight:800;color:#8a5a2b">3</div><div style="font-size:.85rem;color:#6d5a48">gerações no campo</div></div>
       </div>
     </div>
     <img src="https://boideengenho.com.br/app/uploads/2022/05/IMG-20190314-WA0008-2.jpg" alt="Estrutura de manejo das fazendas cooperadas" loading="lazy" style="width:100%;border-radius:18px;box-shadow:0 24px 60px rgba(58,31,22,.25)">
@@ -368,7 +381,7 @@
 </section>
 
 <!-- ONDE COMPRAR (consumidor final) -->
-<section id="onde" style="padding:110px 24px;background:#fff;color:#2a1712">
+<section id="onde" class="isec" style="background:#fff;color:#2a1712">
   <div style="max-width:1080px;margin:0 auto;text-align:center">
     <span class="eyebrow" style="color:#8a5a2b">Para você, consumidor</span>
     <h2 style="font-size:clamp(1.8rem,4vw + .5rem,3.2rem);color:#3a1f16;margin:12px 0 10px">Onde encontrar nossos cortes</h2>
@@ -722,6 +735,39 @@
   window.addEventListener('scroll',onScroll,{passive:true});
   window.addEventListener('resize',onScroll);
   onScroll();
+
+  /* CONTADORES SPRING (física de mola — inspiração Motion.dev) */
+  function spring(from,to,onU,{stiffness=120,damping=13}={}){
+    let v=0,x=from,last=performance.now();
+    (function tick(now){
+      const dt=Math.min((now-last)/1000,.064);last=now;
+      v+=(-stiffness*(x-to)-damping*v)*dt;x+=v*dt;onU(x);
+      if(Math.abs(x-to)>.5||Math.abs(v)>.5)requestAnimationFrame(tick);else onU(to);
+    })(last);
+  }
+  const nio=new IntersectionObserver(es=>es.forEach(e=>{
+    if(!e.isIntersecting)return;nio.unobserve(e.target);
+    const el=e.target,n=+el.dataset.n,pre=el.dataset.pre||'';
+    spring(Math.max(0,n-Math.min(n,60)),n,v=>el.textContent=pre+Math.round(v));
+  }),{threshold:.6});
+  document.querySelectorAll('.bignum').forEach(el=>nio.observe(el));
+
+  /* REVELAÇÃO EM ONDA (stagger a partir do centro — inspiração Anime.js) */
+  function waveDelays(container,sel){
+    const items=[...container.querySelectorAll(sel)];const cols=matchMedia('(max-width:760px)').matches?1:3;
+    const cC=(cols-1)/2,cR=(Math.ceil(items.length/cols)-1)/2;
+    items.forEach((el,i)=>{const c=i%cols,r=(i/cols)|0;
+      el.style.transitionDelay=(Math.hypot(c-cC,r-cR)*0.09)+'s';});
+    return items;
+  }
+  const wio=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('in');wio.unobserve(e.target);}
+  }),{threshold:.15});
+  document.querySelectorAll('.vgrid').forEach(g=>waveDelays(g,':scope>*').forEach(el=>wio.observe(el)));
+  document.querySelectorAll('.pos-col').forEach(col=>{
+    [...col.querySelectorAll('.pos')].forEach((el,i)=>{el.style.transitionDelay=(i*0.06)+'s';wio.observe(el);});
+  });
+  document.querySelectorAll('.cert-grid>*').forEach((el,i)=>{el.style.transitionDelay=(i*0.15)+'s';wio.observe(el);});
 
   /* reveal cards */
   const vio=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');vio.unobserve(x.target)}}),{threshold:.2});
