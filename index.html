@@ -6,22 +6,22 @@
 <title>Boi de Engenho — Do pasto à sua mesa</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --dark:#120d09;--dark-2:#1a130d;--card:#221a12;
-    --accent:#e2571b;--accent-2:#f0813f;
-    --text:#f6f0e6;--muted:#a89e90;--line:rgba(255,255,255,.12);
+    --dark:#1c0f0b;--dark-2:#2a1712;--card:#33201a;--bordo:#582c22;--cream:#f5efe3;--cream-2:#ece2cf;
+    --accent:#c19a5b;--accent-2:#d8b578;
+    --text:#f7f2e8;--muted:#b3a793;--line:rgba(255,255,255,.12);
     --ease:cubic-bezier(.16,1,.3,1);
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{font-family:'Inter',sans-serif;background:var(--dark);color:var(--text);line-height:1.6;overflow-x:hidden}
-  h1,h2,h3{font-family:'Barlow Condensed',sans-serif;font-weight:700;text-transform:uppercase;line-height:1.02}
+  h1,h2,h3{font-family:'Playfair Display',serif;font-weight:700;line-height:1.12}
   a{color:inherit;text-decoration:none}
   .accent{color:var(--accent)}
   /* barra de capítulos estilo stories do Instagram (uma barrinha por etapa) */
-  .stories{position:fixed;top:92px;left:0;right:0;z-index:290;display:flex;gap:6px;
+  .stories{position:fixed;top:84px;left:0;right:0;z-index:290;display:flex;gap:6px;
     padding:0 24px;max-width:1200px;margin:0 auto;opacity:0;pointer-events:none;
     transition:opacity .45s var(--ease)}
   body.in-cine .stories{opacity:1}
@@ -37,32 +37,32 @@
   .btn-wa .ico{stroke:#0b0d11;width:22px;height:22px}
 
   /* ---------- NAV ---------- */
-  header{position:fixed;top:0;left:0;right:0;z-index:300;padding:16px 0;background:linear-gradient(180deg,rgba(11,13,17,.5),transparent)}
+  header{position:fixed;top:0;left:0;right:0;z-index:300;padding:10px 0;background:rgba(245,239,227,.96);box-shadow:0 2px 18px rgba(28,15,11,.18);border-bottom:2px solid var(--accent)}
   .nav{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
-  .logo{font-family:'Barlow Condensed';font-weight:700;font-size:1.6rem;letter-spacing:.02em;color:#fff}
+  .logo{display:flex;align-items:center}
   .logo .mk{color:var(--accent)}
   .nav-links{display:flex;gap:26px;list-style:none;align-items:center}
-  .nav-links a{font-size:.9rem;font-weight:500;color:rgba(255,255,255,.85);transition:.25s;position:relative}
+  .nav-links a{font-size:.9rem;font-weight:600;color:#582c22;transition:.25s;position:relative}
   .nav-links a:hover{color:var(--accent)}
   .nav-links a[data-p]::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--accent);transition:width .3s var(--ease)}
   .nav-links a[data-p].act{color:var(--accent)}
   .nav-links a[data-p].act::after{width:100%}
-  .nav-cta{position:relative;overflow:hidden;background:var(--accent);color:#fff;font-weight:600;font-size:.88rem;padding:10px 20px;border-radius:10px;transition:.25s;animation:ctaPulse 2.6s infinite;display:inline-flex;align-items:center;gap:8px}
+  .nav-cta{position:relative;overflow:hidden;background:var(--bordo);color:#f5efe3;font-weight:600;font-size:.88rem;padding:10px 20px;border-radius:10px;transition:.25s;animation:ctaPulse 2.6s infinite;display:inline-flex;align-items:center;gap:8px}
   .nav-cta .ico{width:17px;height:17px;stroke:#fff}
   .nav-cta::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%);transform:translateX(-130%) skewX(-15deg);animation:ctaShine 3.2s infinite}
-  .nav-cta:hover{background:var(--accent-2);transform:translateY(-2px)}
+  .nav-cta:hover{background:#6d382b;transform:translateY(-2px)}
   @keyframes ctaShine{0%,55%{transform:translateX(-130%) skewX(-15deg)}100%{transform:translateX(130%) skewX(-15deg)}}
-  @keyframes ctaPulse{0%{box-shadow:0 0 0 0 rgba(255,87,34,.5)}70%{box-shadow:0 0 0 11px rgba(255,87,34,0)}100%{box-shadow:0 0 0 0 rgba(255,87,34,0)}}
+  @keyframes ctaPulse{0%{box-shadow:0 0 0 0 rgba(193,154,91,.55)}70%{box-shadow:0 0 0 11px rgba(193,154,91,0)}100%{box-shadow:0 0 0 0 rgba(193,154,91,0)}}
 
   /* ---------- FILM STAGE ---------- */
   #cine{height:560vh;position:relative}
   .stage{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;background:#000}
   .film-el,.hero-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 58%}
-  .film-el{opacity:0;transition:opacity .5s}
+  .film-el{opacity:0;transition:opacity .18s linear}
   .film-el.on{opacity:1}
   /* fallback zoom (only when film.mp4 is absent) */
   .zoomwrap{position:absolute;inset:0;transform-origin:54% 62%;will-change:transform}
-  .fallback-bg{position:absolute;inset:0;background:linear-gradient(180deg,#1a2233 0%,#2b3245 34%,#7a5a44 62%,#c9793f 82%,#e89a54 100%)}
+  .fallback-bg{position:absolute;inset:0;background:linear-gradient(180deg,#27384a 0%,#4a6a4e 40%,#7a8a4e 70%,#c9a558 100%)}
   .grain{position:absolute;inset:0;background:radial-gradient(120% 120% at 50% 30%,transparent 60%,rgba(0,0,0,.45) 100%);pointer-events:none;z-index:4}
   /* gradientes preto→transparente que acompanham o lado do texto */
   .scrim{position:absolute;inset:0;pointer-events:none;z-index:6;opacity:0;transition:opacity .6s var(--ease)}
@@ -100,6 +100,14 @@
   .vcard h3{font-size:1.5rem;margin-bottom:8px}
   .vcard p{color:var(--muted);font-size:.95rem}
 
+  .pcard{background:#fff;border:1px solid var(--cream-2);border-radius:18px;overflow:hidden;text-align:left;box-shadow:0 14px 40px rgba(58,31,22,.08);transition:transform .35s var(--ease)}
+  .pcard:hover{transform:translateY(-6px)}
+  .pcard img{width:100%;height:230px;object-fit:cover;display:block}
+  .pcard .pbody{padding:22px 24px}
+  .pcard h3{font-size:1.35rem;margin-bottom:6px}
+  .pcard p{font-size:.93rem}
+  @media(max-width:760px){.cert-grid{grid-template-columns:1fr!important;gap:28px!important}}
+
   /* ---------- QUIZ ---------- */
   .quiz-sec{padding:110px 24px 130px;background:radial-gradient(60% 50% at 50% 0%,rgba(255,87,34,.12),transparent 60%),var(--dark)}
   .quiz-wrap{max-width:720px;margin:0 auto}
@@ -119,8 +127,8 @@
   .opts{display:grid;gap:12px}
   .opts.two{grid-template-columns:1fr 1fr}
   .opt{display:flex;align-items:center;gap:14px;background:var(--dark-2);border:2px solid var(--line);border-radius:14px;padding:18px;cursor:pointer;transition:.25s var(--ease)}
-  .opt:hover{border-color:var(--accent-2);transform:translateY(-2px)}
-  .opt.sel{border-color:var(--accent);background:rgba(255,87,34,.1)}
+  .opt:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .opt.sel{border-color:var(--accent);background:rgba(193,154,91,.12)}
   .opt .emo{font-size:1.6rem;width:34px;text-align:center}
   .opt .txt b{display:block;font-size:1.06rem}
   .opt .txt small{color:var(--muted);font-size:.85rem}
@@ -133,8 +141,8 @@
   .field input::placeholder{color:#5b616b}
   .qnav{display:flex;justify-content:space-between;gap:12px;margin-top:28px}
   .btn{font-family:inherit;font-weight:600;font-size:.98rem;padding:15px 26px;border-radius:12px;border:2px solid transparent;cursor:pointer;transition:.25s var(--ease);display:inline-flex;align-items:center;gap:8px}
-  .btn-primary{background:var(--accent);color:#fff}
-  .btn-primary:hover{background:var(--accent-2);transform:translateY(-2px);box-shadow:0 12px 26px rgba(255,87,34,.35)}
+  .btn-primary{background:var(--accent);color:#2a1712}
+  .btn-primary:hover{background:var(--accent-2);transform:translateY(-2px);box-shadow:0 12px 26px rgba(193,154,91,.4)}
   .btn-ghost{background:transparent;border-color:var(--line);color:var(--text)}
   .btn-ghost:hover{border-color:#fff}
   .btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
@@ -218,15 +226,15 @@
 
 <header>
   <div class="nav">
-    <a class="logo" href="#cine">Boi de <span class="mk">Engenho</span></a>
+    <a class="logo" href="#cine"><img src="https://boideengenho.com.br/app/uploads/2024/05/1-1.png" alt="Boi de Engenho — Carne a Pasto" style="height:52px;width:auto"></a>
     <ul class="nav-links">
       <li class="link"><a href="#cine" data-p="0">Início</a></li>
-      <li class="link"><a href="#cine" data-p="0.2">Origem</a></li>
-      <li class="link"><a href="#cine" data-p="0.4">No pasto</a></li>
-      <li class="link"><a href="#cine" data-p="0.58">Os cortes</a></li>
-      <li class="link"><a href="#cine" data-p="0.76">O fogo</a></li>
-      <li class="link"><a href="#cotar">Pedido</a></li>
-      <li><a class="nav-cta" id="navWa" target="_blank" rel="noopener" href="#"><svg class="ico"><use href="#i-chat"/></svg>WhatsApp</a></li>
+      <li class="link"><a href="#cine" data-p="0.2">No pasto</a></li>
+      <li class="link"><a href="#cine" data-p="0.38">Manejo</a></li>
+      <li class="link"><a href="#cine" data-p="0.56">Indústria</a></li>
+      <li class="link"><a href="#cine" data-p="0.74">Certificação</a></li>
+      <li class="link"><a href="#linhas">Produtos</a></li>
+      <li><a class="nav-cta" id="navWa" target="_blank" rel="noopener" href="#"><svg class="ico"><use href="#i-chat"/></svg>Fazer pedido</a></li>
     </ul>
   </div>
 </header>
@@ -241,37 +249,38 @@
     </div>
     <!-- O filme (AD gerado no Higgsfield) -->
     <video class="film-el" id="film" muted playsinline preload="auto"></video>
+    <video class="film-el" id="film2" muted playsinline preload="auto"></video>
 
     <div class="grain"></div>
     <div class="scrim left" id="scrimL"></div>
     <div class="scrim right" id="scrimR"></div>
     <div class="topfade"></div>
 
-    <!-- Legendas: faixas contíguas (o texto troca na hora; o vídeo segue o movimento) -->
-    <div class="cap" data-from="0" data-to="0.16">
-      <span class="eyebrow">Boi de Engenho • Carnes especiais — Maceió</span>
+    <!-- Legendas: 2 atos — pasto→confinamento→indústria | indústria→mesa -->
+    <div class="cap" data-from="0" data-to="0.14">
+      <span class="eyebrow">Boi de Engenho • Carne a Pasto — Maceió</span>
       <h1>Do pasto à<br><span>sua mesa.</span></h1>
     </div>
-    <div class="cap" data-from="0.16" data-to="0.33">
-      <h2>Três gerações<br>no mesmo chão.</h2>
-      <p>Desde 2016, uma cooperativa que carrega o legado dos engenhos do Nordeste — do criador direto pra você.</p>
+    <div class="cap" data-from="0.14" data-to="0.3">
+      <h2>Criação à pasto,<br>no solo nordestino.</h2>
+      <p>Animais livres, água potável e o terroir do Nordeste. Um compromisso com o bem-estar animal firmado ainda ao nascer.</p>
     </div>
-    <div class="cap" data-from="0.33" data-to="0.5">
-      <h2>Criado solto,<br><span>no capim.</span></h2>
-      <p>Bem-estar animal, produção rastreada e certificação Brazil Beef Quality. Carne com origem de verdade.</p>
+    <div class="cap" data-from="0.3" data-to="0.5">
+      <h2>Manejo racional,<br><span>rebanho precoce.</span></h2>
+      <p>Gado Angus, tecnologia voltada ao bem-estar e um protocolo padrão que garante excelência comprovada.</p>
     </div>
     <div class="cap right" data-from="0.5" data-to="0.68">
-      <h2>Mais de 50 cortes especiais.</h2>
-      <p>Do churrasco do fim de semana ao dia a dia — até a linha Taurus Reserva, de fêmeas Angus selecionadas.</p>
+      <h2>Nossa indústria,<br>nosso padrão.</h2>
+      <p>Desde 2019, o beneficiamento é nosso: rigoroso padrão sanitário, +50 cortes e embalagem impecável.</p>
     </div>
     <div class="cap right" data-from="0.68" data-to="0.85">
-      <h2>O fogo faz<br><span>a festa.</span></h2>
-      <p>Carne certa não precisa de segredo: só brasa, sal grosso e gente boa em volta.</p>
+      <h2>Certificação<br><span>Brazil Beef Quality.</span></h2>
+      <p>4 estrelas premium quality. Rastreabilidade da fazenda ao balcão — respeito que vira sabor.</p>
     </div>
     <div class="cap right" data-from="0.85" data-to="1.01">
-      <span class="eyebrow">Hoje tem churrasco</span>
-      <h2>Bora montar <span>seu pedido?</span></h2>
-      <p>Escolha em 1 minuto e finalize direto no nosso WhatsApp. ↓</p>
+      <span class="eyebrow">Da fazenda à mesa</span>
+      <h2>Hoje, a mesa<br><span>é sua.</span></h2>
+      <p>Monte seu pedido em 1 minuto e finalize no nosso WhatsApp. ↓</p>
     </div>
 
     <div class="scroll-hint" id="hint"><div class="mouse"></div>Role para viver a história</div>
@@ -279,16 +288,61 @@
 </section>
 
 <!-- ===================== VALUE ===================== -->
-<section class="value" id="vantagens">
+<section class="value" id="vantagens" style="background:var(--cream);color:#2a1712">
   <div class="wrap">
-    <span class="eyebrow">Por que Boi de Engenho</span>
-    <h2>Carne com origem, do criador pra você</h2>
-    <p class="sub">A gente cuida de tudo: da criação no pasto à embalagem — pra chegar na sua churrasqueira do jeito certo.</p>
+    <span class="eyebrow" style="color:#8a5a2b">Diferenciais</span>
+    <h2 style="color:#3a1f16">Excelência comprovada, do manejo ao corte</h2>
+    <p class="sub" style="color:#6d5a48">Uma cooperativa de produtores que controla toda a cadeia — e assina cada etapa.</p>
     <div class="vgrid">
-      <div class="vcard"><svg class="ico"><use href="#i-leaf"/></svg><h3>Criado a pasto</h3><p>Bem-estar animal de verdade, três gerações de produtores rurais no comando.</p></div>
-      <div class="vcard"><svg class="ico"><use href="#i-shield"/></svg><h3>Certificado e rastreado</h3><p>Selo Brazil Beef Quality e rastreabilidade da fazenda até o balcão.</p></div>
-      <div class="vcard"><svg class="ico"><use href="#i-knife"/></svg><h3>+50 cortes especiais</h3><p>Do dia a dia à linha Taurus Reserva (Angus) e aos embutidos Facilita.</p></div>
+      <div class="vcard" style="background:#fff;border-color:var(--cream-2)"><svg class="ico"><use href="#i-leaf"/></svg><h3 style="color:#3a1f16">Criação à pasto</h3><p style="color:#6d5a48">Animais livres no solo nordestino, com manejo racional e bem-estar animal desde o nascimento.</p></div>
+      <div class="vcard" style="background:#fff;border-color:var(--cream-2)"><svg class="ico"><use href="#i-shield"/></svg><h3 style="color:#3a1f16">Rigor sanitário</h3><p style="color:#6d5a48">Protocolo padrão de trabalho e rastreabilidade que garantem uma entrega comprovadamente de excelência.</p></div>
+      <div class="vcard" style="background:#fff;border-color:var(--cream-2)"><svg class="ico"><use href="#i-star"/></svg><h3 style="color:#3a1f16">Padrão premium</h3><p style="color:#6d5a48">Gado Angus, rebanho precoce e acabamento padronizado nos +50 tipos de cortes.</p></div>
     </div>
+  </div>
+</section>
+
+<!-- LINHAS DE PRODUTOS (fotos oficiais) -->
+<section id="linhas" style="padding:110px 24px;background:#fff;color:#2a1712">
+  <div style="max-width:1080px;margin:0 auto;text-align:center">
+    <span class="eyebrow" style="color:#8a5a2b">Nossos produtos</span>
+    <h2 style="font-size:clamp(1.8rem,4vw + .5rem,3.2rem);color:#3a1f16;margin:12px 0 10px">Mais de 50 cortes, da iguaria ao dia a dia</h2>
+    <p style="color:#6d5a48;max-width:620px;margin:0 auto 54px">Fotos reais do nosso padrão — o mesmo que chega à sua casa.</p>
+    <div class="vgrid">
+      <div class="pcard"><img src="https://boideengenho.com.br/app/uploads/2024/07/13ee78c3-fcd7-4f15-b189-537b098c5d9b-compressed-scaled.jpg" alt="Bife Ancho — Linha Taurus Reserva" loading="lazy"><div class="pbody"><h3 style="color:#3a1f16">Taurus Reserva</h3><p style="color:#6d5a48">A cabeceira da produção: fêmeas Angus precoces, gordura no ponto perfeito. É pura iguaria.</p></div></div>
+      <div class="pcard"><img src="https://boideengenho.com.br/app/uploads/2024/07/861dd088-c20b-4341-b11e-2440e777acba-compressed-scaled.jpg" alt="Cortes especiais Boi de Engenho" loading="lazy"><div class="pbody"><h3 style="color:#3a1f16">Cortes especiais</h3><p style="color:#6d5a48">Do churrasco ao almoço da semana: qualidade inigualável em todos os +50 cortes.</p></div></div>
+      <div class="pcard"><img src="https://boideengenho.com.br/app/uploads/2024/07/fc6a7723-9eb9-445c-92fb-2ef251d56558-compressed-scaled.jpg" alt="Linha Facilita — embutidos" loading="lazy"><div class="pbody"><h3 style="color:#3a1f16">Linha Facilita</h3><p style="color:#6d5a48">Embutidos 100% carne Boi de Engenho — praticidade que vira banquete.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICAÇÃO (foto real com o selo) -->
+<section id="certificacao" style="padding:110px 24px;background:var(--bordo);color:#f7f2e8">
+  <div style="max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center" class="cert-grid">
+    <img src="https://boideengenho.com.br/app/uploads/2024/07/7a4bda2d-181b-46f1-8ab5-93b8c9824f95-compressed-scaled.jpg" alt="Selo Brazil Beef Quality 4 estrelas" loading="lazy" style="width:100%;border-radius:18px;box-shadow:0 24px 60px rgba(0,0,0,.35)">
+    <div>
+      <span class="eyebrow">Certificação</span>
+      <h2 style="font-size:clamp(1.8rem,3.5vw + .6rem,3rem);margin:12px 0 14px">Brazil Beef Quality<br><span style="color:var(--accent-2)">4 estrelas premium</span></h2>
+      <p style="color:#e8dcc8;margin-bottom:14px">Somos uma cooperativa certificada pelo selo Brazil Beef Quality — classificação 4 STARS Premium Quality, estampada em cada embalagem.</p>
+      <p style="color:#cdbba0">Cada corte carrega a rastreabilidade completa: da fazenda cooperada, passando pela nossa indústria de beneficiamento, até o seu balcão.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DA FAZENDA À MESA (estrutura real) -->
+<section id="historia" style="padding:110px 24px;background:var(--cream);color:#2a1712">
+  <div style="max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center" class="cert-grid">
+    <div>
+      <span class="eyebrow" style="color:#8a5a2b">Nossa história</span>
+      <h2 style="font-size:clamp(1.8rem,3.5vw + .6rem,3rem);color:#3a1f16;margin:12px 0 14px">Da fazenda à mesa,<br>de verdade</h2>
+      <p style="color:#6d5a48;margin-bottom:14px">Nascemos em 2016 como uma cooperativa que honra o legado dos bovinos trazidos aos engenhos do Nordeste. Em 2019, realizamos o maior sonho: a nossa própria indústria de beneficiamento.</p>
+      <p style="color:#6d5a48">Hoje, três gerações de produtores rurais assinam toda a cadeia — criação, manejo, beneficiamento e entrega.</p>
+      <div style="display:flex;gap:36px;margin-top:26px;flex-wrap:wrap">
+        <div><div style="font-family:'Playfair Display';font-size:2.2rem;font-weight:800;color:#8a5a2b">2016</div><div style="font-size:.85rem;color:#6d5a48">cooperativa fundada</div></div>
+        <div><div style="font-family:'Playfair Display';font-size:2.2rem;font-weight:800;color:#8a5a2b">+50</div><div style="font-size:.85rem;color:#6d5a48">tipos de cortes</div></div>
+        <div><div style="font-family:'Playfair Display';font-size:2.2rem;font-weight:800;color:#8a5a2b">3</div><div style="font-size:.85rem;color:#6d5a48">gerações no campo</div></div>
+      </div>
+    </div>
+    <img src="https://boideengenho.com.br/app/uploads/2022/05/IMG-20190314-WA0008-2.jpg" alt="Estrutura de manejo das fazendas cooperadas" loading="lazy" style="width:100%;border-radius:18px;box-shadow:0 24px 60px rgba(58,31,22,.25)">
   </div>
 </section>
 
@@ -370,16 +424,11 @@
   // O AD gerado no Higgsfield (Kling 3.0, 10s). Se você baixar o MP4 e salvar como
   // film.mp4 na pasta do site, ele tem prioridade (carrega mais rápido e não depende do CDN).
   const FILM_LOCAL  = "film.mp4";
-  // Filme "do pasto à mesa" (gerado no Higgsfield)
-  const FILM_REMOTE = "https://d8j0ntlcm91z4.cloudfront.net/user_3AWtibA40kU8CXuL4OPvkUq3Ruq/hf_20260720_160046_d8516365-5518-44c6-8c1e-e5c413944d88.mp4";
-  const FILM_REMOTE_SD = "https://d8j0ntlcm91z4.cloudfront.net/user_3AWtibA40kU8CXuL4OPvkUq3Ruq/hf_20260720_155747_fc153f1a-2873-41f0-8648-39e10e44fcae.mp4";
-  // Versão VERTICAL 9:16 (celular): leve primeiro, HD de reserva
-  const FILM_MOBILE_REMOTE = "https://d8j0ntlcm91z4.cloudfront.net/user_3AWtibA40kU8CXuL4OPvkUq3Ruq/hf_20260720_160117_d96a5bf3-40e8-4fde-9781-c210f4ce5984.mp4";
-  const FILM_MOBILE_HD = "https://d8j0ntlcm91z4.cloudfront.net/user_3AWtibA40kU8CXuL4OPvkUq3Ruq/hf_20260720_160354_de281e2c-645c-4f08-8210-28230443b2e8.mp4";
-  const HERO_MOBILE_REMOTE = "https://d8j0ntlcm91z4.cloudfront.net/user_3AWtibA40kU8CXuL4OPvkUq3Ruq/hf_20260720_155803_5003f4ec-b945-420c-ae4a-162cd221bb3b.png";
-  const IS_MOBILE = matchMedia('(max-width:760px)').matches || innerHeight>innerWidth;
-  const R_MAIN = (IS_MOBILE && FILM_MOBILE_REMOTE.startsWith('http')) ? FILM_MOBILE_REMOTE : FILM_REMOTE;
-  const R_SD   = (IS_MOBILE && FILM_MOBILE_REMOTE.startsWith('http')) ? FILM_MOBILE_HD : FILM_REMOTE_SD;
+  // O filme em 2 ATOS (Higgsfield): A = pasto→confinamento→indústria • B = indústria→mesa
+  const FILM_A = "https://d8j0ntlcm91z4.cloudfront.net/user_3AWtibA40kU8CXuL4OPvkUq3Ruq/hf_20260720_172423_9959d72d-e012-4b56-96d4-5a3068f7df25.mp4";
+  const FILM_B = "https://d8j0ntlcm91z4.cloudfront.net/user_3AWtibA40kU8CXuL4OPvkUq3Ruq/hf_20260720_172425_92c9e5c7-ac5c-4b74-a5a3-d158bb7c74c8.mp4";
+  const SPLIT = 0.5; // fração do scroll onde o ato B assume
+  const HERO_REMOTE_ = "https://d8j0ntlcm91z4.cloudfront.net/user_3AWtibA40kU8CXuL4OPvkUq3Ruq/hf_20260720_155620_f7045c03-186f-4763-8345-ad7db1629011.png";
   const HERO_LOCAL  = "hero.jpg";
   const HERO_REMOTE = "https://d8j0ntlcm91z4.cloudfront.net/user_3AWtibA40kU8CXuL4OPvkUq3Ruq/hf_20260720_155620_f7045c03-186f-4763-8345-ad7db1629011.png";
 
@@ -388,107 +437,78 @@
   const film=document.getElementById('film');
   const zoomwrap=document.getElementById('zoomwrap');
   const heroPhoto=document.getElementById('heroPhoto');
+  const film2=document.getElementById('film2');
   const caps=[...document.querySelectorAll('.cap')];
-  const hint=document.getElementById('hint');
-  let filmReady=false, targetT=0, currentT=0, seeking=false;
+  let filmReady=false, film2Ready=false;
 
-  // monta as barrinhas de stories (uma por etapa da história)
-  const storiesEl=document.getElementById('stories');
-  caps.forEach(()=>{const s=document.createElement('span');s.appendChild(document.createElement('i'));storiesEl.appendChild(s);});
-  const segs=[...storiesEl.children];
-  let lastAct=-1;
+  heroPhoto.onerror=()=>{heroPhoto.style.display='none'};
+  heroPhoto.src=HERO_REMOTE;
+  film.poster=HERO_REMOTE;
 
-  // Foto: tenta hero.jpg local; senão usa a foto original no CDN do Higgsfield
-  const HERO_R=(IS_MOBILE && HERO_MOBILE_REMOTE.startsWith('http'))?HERO_MOBILE_REMOTE:HERO_REMOTE;
-  heroPhoto.onerror=()=>{heroPhoto.onerror=()=>{heroPhoto.style.display='none'};heroPhoto.src=HERO_R;};
-  heroPhoto.src=HERO_LOCAL;
-  film.poster=HERO_R;
+  let primed=false;
+  function primeFilm(){
+    if(primed)return;
+    [film,film2].forEach(v=>{if(!v.src)return;const p=v.play();
+      if(p&&p.then)p.then(()=>{v.pause();try{v.currentTime=0.01;}catch(e){}}).catch(()=>{});});
+    primed=true;
+  }
+  ['touchstart','click','scroll'].forEach(ev=>window.addEventListener(ev,primeFilm,{once:true,passive:true}));
+
+  function arm(v,flag){
+    v.addEventListener('loadedmetadata',()=>{
+      if(flag==='A'){filmReady=true;film.classList.add('on');document.body.classList.add('film-on');zoomwrap.style.display='none';rafLoop();}
+      else{film2Ready=true;}
+      primeFilm();
+    },{once:true});
+  }
+  arm(film,'A');arm(film2,'B');
+  film.src=FILM_A; film2.src=FILM_B; film.load(); film2.load();
 
   // Botão do menu → direto pro WhatsApp
   document.getElementById('navWa').href='https://wa.me/'+WHATSAPP+'?text='+
     encodeURIComponent('Olá! Vim pelo site do Boi de Engenho e quero fazer um pedido.');
 
-  // Fases do scroll no menu: clique pula pra fase; destaque acompanha a rolagem
+  // Fases do scroll no menu
   const phaseLinks=[...document.querySelectorAll('.nav-links a[data-p]')];
   phaseLinks.forEach(a=>a.addEventListener('click',e=>{
     e.preventDefault();
-    const p=parseFloat(a.dataset.p);
+    const pp=parseFloat(a.dataset.p);
     const total=cine.offsetHeight-innerHeight;
-    window.scrollTo({top:cine.offsetTop+p*total+2,behavior:'smooth'});
+    window.scrollTo({top:cine.offsetTop+pp*total+2,behavior:'smooth'});
   }));
 
-  // "Priming" pro iOS/Android: um play+pause mudo libera os seeks via scroll.
-  // Sem isso, o Safari mostra o poster mas ignora currentTime (vídeo "parado").
-  let primed=false;
-  function primeFilm(){
-    if(primed||!film.src)return;
-    const p=film.play();
-    if(p&&p.then)p.then(()=>{film.pause();primed=true;try{film.currentTime=0.01;}catch(e){}}).catch(()=>{});
-  }
-  ['touchstart','click','scroll'].forEach(ev=>
-    window.addEventListener(ev,primeFilm,{once:true,passive:true}));
+  // barrinhas estilo stories (uma por etapa)
+  const storiesEl=document.getElementById('stories');
+  caps.forEach(()=>{const s=document.createElement('span');s.appendChild(document.createElement('i'));storiesEl.appendChild(s);});
+  const segs=[...storiesEl.children];
+  let lastAct=-1;
 
-  function armFilm(){
-    film.addEventListener('loadedmetadata',()=>{
-      filmReady=true;
-      film.classList.add('on');
-      document.body.classList.add('film-on');
-      zoomwrap.style.display='none';
-      primeFilm();
-      rafLoop();
-    },{once:true});
-    film.addEventListener('seeking',()=>seeking=true);
-    film.addEventListener('seeked',()=>seeking=false);
-  }
-  armFilm();
-
-  // Cadeia de carregamento robusta:
-  //  - servido em http(s): tenta film.mp4 local como blob (scrub perfeito em qualquer host)
-  //  - aberto como arquivo (file://) ou sem local: usa o vídeo DIRETO (não precisa de CORS)
-  //  - se o direto local falhar → CDN direto; se tudo falhar → foto com zoom
-  function loadAsBlob(src){
-    return fetch(src).then(r=>{
-      if(!r.ok) throw new Error('http '+r.status);
-      return r.blob();
-    }).then(b=>{film.src=URL.createObjectURL(b);});
-  }
-  function loadDirect(src,next){
-    const onerr=()=>{film.removeEventListener('error',onerr);if(next)next();};
-    film.addEventListener('error',onerr);
-    film.src=src;
-    film.load();
-  }
-  if(location.protocol.startsWith('http')){
-    loadAsBlob(FILM_LOCAL)
-      .catch(()=>loadAsBlob(R_MAIN))
-      .catch(()=>loadDirect(R_MAIN,()=>loadDirect(R_SD,null)));
-  }else{
-    // aberto com duplo clique (file://): fetch não funciona; vídeo direto funciona
-    loadDirect(FILM_LOCAL,()=>loadDirect(R_MAIN,()=>loadDirect(R_SD,null)));
-  }
 
   function sceneProgress(){
     const rect=cine.getBoundingClientRect();
     const total=cine.offsetHeight-innerHeight;
     return Math.min(Math.max(-rect.top/total,0),1);
   }
-  // Motor híbrido: o scroll define o ALVO e o vídeo TOCA até lá (nunca congela).
-  // Avançando: reprodução nativa (1x–4x conforme a distância) → todo frame renderiza,
-  // e mesmo que a pessoa role rápido e pare, o movimento se conclui sozinho.
-  // Retrocedendo: seeks suavizados (vídeo não toca de trás pra frente).
+  // Motor híbrido em 2 atos: o scroll define o alvo global; cada ato toca até concluir.
+  function driveTo(v,localT){
+    const gap=localT-v.currentTime;
+    if(gap>0.2){v.playbackRate=Math.min(4,1+gap*1.2);if(v.paused)v.play().catch(()=>{});}
+    else{if(!v.paused)v.pause();
+      if(Math.abs(gap)>0.033){try{v.currentTime=v.currentTime+gap*0.22;}catch(e){}}}
+  }
   function rafLoop(){
     if(filmReady){
-      const dur=Math.max(film.duration-0.05,0);
-      targetT=sceneProgress()*dur;
-      const gap=targetT-film.currentTime;
-      if(gap>0.2){
-        film.playbackRate=Math.min(4,1+gap*1.2);
-        if(film.paused)film.play().catch(()=>{});
+      const p=sceneProgress();
+      const durA=Math.max(film.duration-0.05,0);
+      if(p<SPLIT||!film2Ready){
+        film.style.opacity=1;if(film2Ready)film2.style.opacity=0;
+        driveTo(film,(p/SPLIT)*durA);
+        if(film2Ready&&!film2.paused)film2.pause();
       }else{
+        const durB=Math.max(film2.duration-0.05,0);
+        film2.style.opacity=1;film.style.opacity=0;
+        driveTo(film2,((p-SPLIT)/(1-SPLIT))*durB);
         if(!film.paused)film.pause();
-        if(Math.abs(gap)>0.033&&!seeking){
-          try{film.currentTime=film.currentTime+gap*0.22;}catch(e){}
-        }
       }
       requestAnimationFrame(rafLoop);
     }
