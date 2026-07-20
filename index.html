@@ -521,6 +521,11 @@
   }
   // Ato A primeiro (primeira dobra rápida); B carrega logo atrás em paralelo
   loadFilm(film, LOCAL_A, CDN_A).then(()=>loadFilm(film2, LOCAL_B, CDN_B));
+  // Aba aberta em segundo plano? O Chrome suspende mídia; retoma quando ficar visível.
+  document.addEventListener('visibilitychange',()=>{
+    if(!document.hidden){[film,film2].forEach(v=>{if(v.src&&v.readyState===0){v.load();
+      const pp=v.play();if(pp&&pp.then)pp.then(()=>v.pause()).catch(()=>{});}});}
+  });
 
   // Botão do menu → direto pro WhatsApp
   document.getElementById('navWa').href='https://wa.me/'+WHATSAPP+'?text='+
