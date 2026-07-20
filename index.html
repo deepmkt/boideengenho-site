@@ -108,6 +108,12 @@
   .vcard h3{font-size:1.5rem;margin-bottom:8px}
   .vcard p{color:var(--muted);font-size:.95rem}
 
+  .pos-grid{display:grid;grid-template-columns:1fr 1fr;gap:34px;text-align:left;max-width:900px;margin:0 auto}
+  .pos{display:flex;gap:12px;align-items:flex-start;padding:13px 14px;border:1px solid var(--cream-2);border-radius:12px;background:var(--cream);margin-bottom:10px;transition:transform .3s var(--ease),box-shadow .3s}
+  .pos:hover{transform:translateX(4px);box-shadow:0 8px 22px rgba(58,31,22,.12)}
+  .pos b{display:block;color:#3a1f16;font-size:.98rem}
+  .pos small{color:#7d6b57;font-size:.84rem;line-height:1.4}
+  @media(max-width:760px){.pos-grid{grid-template-columns:1fr}}
   .pcard{background:#fff;border:1px solid var(--cream-2);border-radius:18px;overflow:hidden;text-align:left;box-shadow:0 14px 40px rgba(58,31,22,.08);transition:transform .35s var(--ease)}
   .pcard:hover{transform:translateY(-6px)}
   .pcard img{width:100%;height:230px;object-fit:cover;display:block}
@@ -371,6 +377,31 @@
       <a class="btn btn-primary" target="_blank" rel="noopener" href="https://www.instagram.com/boideengenhocarnes/"><svg class="ico" style="stroke:#2a1712;width:20px;height:20px"><use href="#i-ig"/></svg> Pontos de venda no Instagram</a>
       <a class="btn" style="border:2px solid var(--bordo);color:var(--bordo)" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Boi+de+Engenho+Macei%C3%B3"><svg class="ico" style="stroke:var(--bordo);width:20px;height:20px"><use href="#i-pin"/></svg> Ver no Google Maps</a>
     </div>
+    <div class="pos-grid">
+      <div class="pos-col">
+        <h3 style="font-size:1.5rem;color:#3a1f16;margin-bottom:16px">Alagoas <span style="font-family:Inter;font-size:.8rem;font-weight:600;color:#8a5a2b">· 10 pontos</span></h3>
+        <a class="pos" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Cesta%20de%20Complementos%2C%20Rua%20Irm%C3%A3%20Jacinta%20Maria%2C%20Q.%20V%2C%201%20%E2%80%94%20Antares%2C%20Macei%C3%B3"><svg class="ico" style="width:20px;height:20px;flex:0 0 20px"><use href="#i-pin"/></svg><span><b>Cesta de Complementos</b><small>Rua Irmã Jacinta Maria, Q. V, 1 — Antares, Maceió</small></span></a>
+        <a class="pos" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Cesta%20de%20Alimentos%2C%20Av.%20Macei%C3%B3%2C%20798%20%E2%80%94%20Tabuleiro%20do%20Martins%2C%20Macei%C3%B3"><svg class="ico" style="width:20px;height:20px;flex:0 0 20px"><use href="#i-pin"/></svg><span><b>Cesta de Alimentos</b><small>Av. Maceió, 798 — Tabuleiro do Martins, Maceió</small></span></a>
+        <a class="pos" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Cesta%20de%20Alimentos%2C%20Rua%20Cleto%20Campelo%2C%20469%20%E2%80%94%20Jacintinho%2C%20Macei%C3%B3"><svg class="ico" style="width:20px;height:20px;flex:0 0 20px"><use href="#i-pin"/></svg><span><b>Cesta de Alimentos</b><small>Rua Cleto Campelo, 469 — Jacintinho, Maceió</small></span></a>
+        <a class="pos" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=A%C3%A7ougue%20Novo%20Boi%2C%20Rua%20Prof.%20Manoel%20Coelho%20Neto%2C%20130%20%E2%80%94%20Jati%C3%BAca%2C%20Macei%C3%B3"><svg class="ico" style="width:20px;height:20px;flex:0 0 20px"><use href="#i-pin"/></svg><span><b>Açougue Novo Boi</b><small>Rua Prof. Manoel Coelho Neto, 130 — Jatiúca, Maceió</small></span></a>
+        <a class="pos" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=A%C3%A7ougue%20Novo%20Boi%2C%202%C2%AA%20unidade%20%E2%80%94%20Macei%C3%B3"><svg class="ico" style="width:20px;height:20px;flex:0 0 20px"><use href="#i-pin"/></svg><span><b>Açougue Novo Boi</b><small>2ª unidade — Maceió</small></span></a>
+        <a class="pos" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Compre%20Sempre%2C%20Av.%20Caravelas%20%E2%80%94%20Praia%20do%20Franc%C3%AAs"><svg class="ico" style="width:20px;height:20px;flex:0 0 20px"><use href="#i-pin"/></svg><span><b>Compre Sempre</b><small>Av. Caravelas — Praia do Francês</small></span></a>
+        <a class="pos" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Panifica%C3%A7%C3%A3o%20Alteza%2C%20Rua%20Jangadeiros%20Alagoanos%2C%20732%20%E2%80%94%20Paju%C3%A7ara%2C%20Macei%C3%B3"><svg class="ico" style="width:20px;height:20px;flex:0 0 20px"><use href="#i-pin"/></svg><span><b>Panificação Alteza</b><small>Rua Jangadeiros Alagoanos, 732 — Pajuçara, Maceió</small></span></a>
+        <a class="pos" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Quitandaria%2C%20Rua%20Profa.%20Maria%20Esther%20da%20Costa%20Barros%2C%20559%20%E2%80%94%20Jati%C3%BAca%2C%20Macei%C3%B3"><svg class="ico" style="width:20px;height:20px;flex:0 0 20px"><use href="#i-pin"/></svg><span><b>Quitandaria</b><small>Rua Profa. Maria Esther da Costa Barros, 559 — Jatiúca, Maceió</small></span></a>
+        <a class="pos" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Quitandaria%2C%20Rua%20Jos%C3%A9%20Cabral%20Acioli%2C%2013%20%E2%80%94%20Ponta%20Verde%2C%20Macei%C3%B3"><svg class="ico" style="width:20px;height:20px;flex:0 0 20px"><use href="#i-pin"/></svg><span><b>Quitandaria</b><small>Rua José Cabral Acioli, 13 — Ponta Verde, Maceió</small></span></a>
+        <a class="pos" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Panifica%C3%A7%C3%A3o%20Bras%C3%ADlia%2C%20Rua%20Comendador%20Palmeira%2C%20160%20%E2%80%94%20Farol%2C%20Macei%C3%B3"><svg class="ico" style="width:20px;height:20px;flex:0 0 20px"><use href="#i-pin"/></svg><span><b>Panificação Brasília</b><small>Rua Comendador Palmeira, 160 — Farol, Maceió</small></span></a>
+      </div>
+      <div class="pos-col">
+        <h3 style="font-size:1.5rem;color:#3a1f16;margin-bottom:16px">Pernambuco <span style="font-family:Inter;font-size:.8rem;font-weight:600;color:#8a5a2b">· 5 pontos</span></h3>
+        <a class="pos" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Bulltique%20Premium%2C%20Boa%20Viagem%20%E2%80%94%20Recife"><svg class="ico" style="width:20px;height:20px;flex:0 0 20px"><use href="#i-pin"/></svg><span><b>Bulltique Premium</b><small>Boa Viagem — Recife</small></span></a>
+        <a class="pos" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Espa%C3%A7o%20da%20Carne%2C%20Casa%20Forte%20%E2%80%94%20Recife"><svg class="ico" style="width:20px;height:20px;flex:0 0 20px"><use href="#i-pin"/></svg><span><b>Espaço da Carne</b><small>Casa Forte — Recife</small></span></a>
+        <a class="pos" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Cavalcanti%20Alimentos%20e%20Bebidas%2C%20Parnamirim%20%E2%80%94%20Recife"><svg class="ico" style="width:20px;height:20px;flex:0 0 20px"><use href="#i-pin"/></svg><span><b>Cavalcanti Alimentos e Bebidas</b><small>Parnamirim — Recife</small></span></a>
+        <a class="pos" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Cavalcanti%20Alimentos%20e%20Bebidas%2C%20Carpina%20%E2%80%94%20PE"><svg class="ico" style="width:20px;height:20px;flex:0 0 20px"><use href="#i-pin"/></svg><span><b>Cavalcanti Alimentos e Bebidas</b><small>Carpina — PE</small></span></a>
+        <a class="pos" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Casa%20do%20Ga%C3%BAcho%2C%20Boa%20Viagem%20%E2%80%94%20Recife"><svg class="ico" style="width:20px;height:20px;flex:0 0 20px"><use href="#i-pin"/></svg><span><b>Casa do Gaúcho</b><small>Boa Viagem — Recife</small></span></a>
+      </div>
+    </div>
+    <p style="color:#8a7a66;font-size:.85rem;margin:26px 0 40px">Toque em um ponto para abrir a localização no Google Maps. Lista sempre atualizada no destaque do Instagram.</p>
+    <h3 style="font-size:1.3rem;color:#3a1f16;margin-bottom:18px">Atendimento comercial (B2B)</h3>
     <div class="vgrid" style="text-align:left">
       <div class="vcard" style="background:var(--cream);border-color:var(--cream-2)"><svg class="ico"><use href="#i-pin"/></svg><h3 style="color:#3a1f16">Maceió — AL</h3><p style="color:#6d5a48">Vendas: (82) 9165-7779<br>Carlos Bastos: (82) 9660-7347<br>Vinicius Oliveira: (82) 9955-0093<br>Alan Mafra: (82) 9945-0360</p></div>
       <div class="vcard" style="background:var(--cream);border-color:var(--cream-2)"><svg class="ico"><use href="#i-pin"/></svg><h3 style="color:#3a1f16">Recife — PE</h3><p style="color:#6d5a48">Maria Eduarda Almeida:<br>(81) 9684-7956</p></div>
