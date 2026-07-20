@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Boi de Engenho — Do pasto à sua mesa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --dark:#120d09;--dark-2:#1a130d;--card:#221a12;
+    --accent:#e2571b;--accent-2:#f0813f;
+    --text:#f6f0e6;--muted:#a89e90;--line:rgba(255,255,255,.12);
+    --ease:cubic-bezier(.16,1,.3,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',sans-serif;background:var(--dark);color:var(--text);line-height:1.6;overflow-x:hidden}
+  h1,h2,h3{font-family:'Barlow Condensed',sans-serif;font-weight:700;text-transform:uppercase;line-height:1.02}
+  a{color:inherit;text-decoration:none}
+  .accent{color:var(--accent)}
+  /* barra de capítulos estilo stories do Instagram (uma barrinha por etapa) */
+  .stories{position:fixed;top:92px;left:0;right:0;z-index:290;display:flex;gap:6px;
+    padding:0 24px;max-width:1200px;margin:0 auto;opacity:0;pointer-events:none;
+    transition:opacity .45s var(--ease)}
+  body.in-cine .stories{opacity:1}
+  .stories span{flex:1;height:3px;background:rgba(255,255,255,.25);border-radius:99px;
+    overflow:hidden;position:relative;transition:box-shadow .3s}
+  .stories span i{position:absolute;left:0;top:0;bottom:0;width:0;background:#fff;
+    border-radius:99px}
+  .stories span.act{box-shadow:0 0 10px rgba(255,255,255,.55)}
+  .stories span.tick{animation:segPulse .5s var(--ease)}
+  @keyframes segPulse{0%{transform:scaleY(1)}35%{transform:scaleY(2.6);box-shadow:0 0 16px rgba(255,130,77,.9)}100%{transform:scaleY(1)}}
+  .ico{width:26px;height:26px;flex:0 0 auto;stroke:var(--accent);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .vcard .ico{width:32px;height:32px;margin-bottom:14px}
+  .btn-wa .ico{stroke:#0b0d11;width:22px;height:22px}
+
+  /* ---------- NAV ---------- */
+  header{position:fixed;top:0;left:0;right:0;z-index:300;padding:16px 0;background:linear-gradient(180deg,rgba(11,13,17,.5),transparent)}
+  .nav{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+  .logo{font-family:'Barlow Condensed';font-weight:700;font-size:1.6rem;letter-spacing:.02em;color:#fff}
+  .logo .mk{color:var(--accent)}
+  .nav-links{display:flex;gap:26px;list-style:none;align-items:center}
+  .nav-links a{font-size:.9rem;font-weight:500;color:rgba(255,255,255,.85);transition:.25s;position:relative}
+  .nav-links a:hover{color:var(--accent)}
+  .nav-links a[data-p]::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--accent);transition:width .3s var(--ease)}
+  .nav-links a[data-p].act{color:var(--accent)}
+  .nav-links a[data-p].act::after{width:100%}
+  .nav-cta{position:relative;overflow:hidden;background:var(--accent);color:#fff;font-weight:600;font-size:.88rem;padding:10px 20px;border-radius:10px;transition:.25s;animation:ctaPulse 2.6s infinite;display:inline-flex;align-items:center;gap:8px}
+  .nav-cta .ico{width:17px;height:17px;stroke:#fff}
+  .nav-cta::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%);transform:translateX(-130%) skewX(-15deg);animation:ctaShine 3.2s infinite}
+  .nav-cta:hover{background:var(--accent-2);transform:translateY(-2px)}
+  @keyframes ctaShine{0%,55%{transform:translateX(-130%) skewX(-15deg)}100%{transform:translateX(130%) skewX(-15deg)}}
+  @keyframes ctaPulse{0%{box-shadow:0 0 0 0 rgba(255,87,34,.5)}70%{box-shadow:0 0 0 11px rgba(255,87,34,0)}100%{box-shadow:0 0 0 0 rgba(255,87,34,0)}}
+
+  /* ---------- FILM STAGE ---------- */
+  #cine{height:560vh;position:relative}
+  .stage{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;background:#000}
+  .film-el,.hero-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 58%}
+  .film-el{opacity:0;transition:opacity .5s}
+  .film-el.on{opacity:1}
+  /* fallback zoom (only when film.mp4 is absent) */
+  .zoomwrap{position:absolute;inset:0;transform-origin:54% 62%;will-change:transform}
+  .fallback-bg{position:absolute;inset:0;background:linear-gradient(180deg,#1a2233 0%,#2b3245 34%,#7a5a44 62%,#c9793f 82%,#e89a54 100%)}
+  .grain{position:absolute;inset:0;background:radial-gradient(120% 120% at 50% 30%,transparent 60%,rgba(0,0,0,.45) 100%);pointer-events:none;z-index:4}
+  /* gradientes preto→transparente que acompanham o lado do texto */
+  .scrim{position:absolute;inset:0;pointer-events:none;z-index:6;opacity:0;transition:opacity .6s var(--ease)}
+  .scrim.left{background:linear-gradient(90deg,rgba(0,0,0,.66) 0%,rgba(0,0,0,.34) 32%,transparent 62%)}
+  .scrim.right{background:linear-gradient(270deg,rgba(0,0,0,.66) 0%,rgba(0,0,0,.34) 32%,transparent 62%)}
+  .scrim.on{opacity:1}
+  .topfade{position:absolute;top:0;left:0;right:0;height:110px;background:linear-gradient(180deg,rgba(11,13,17,.45),transparent);pointer-events:none;z-index:5}
+
+  /* legendas laterais: esquerda no início, direita quando ele sobe na moto */
+  .cap{position:absolute;top:50%;left:5vw;z-index:10;width:min(520px,42vw);text-align:left;
+       opacity:0;transform:translateY(calc(-50% + 22px));transition:opacity .45s var(--ease),transform .45s var(--ease);pointer-events:none}
+  .cap.right{left:auto;right:5vw}
+  .cap.show{opacity:1;transform:translateY(-50%)}
+  .cap .eyebrow{font-size:.76rem;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:12px}
+  .cap h1{font-size:clamp(2.5rem,3.4vw + 1.2rem,5.6rem);text-shadow:0 4px 40px rgba(0,0,0,.75);text-wrap:balance;overflow-wrap:break-word}
+  .cap h1 span,.cap h2 span{color:var(--accent)}
+  .cap h2{font-size:clamp(1.8rem,2.4vw + .9rem,3.8rem);text-shadow:0 4px 40px rgba(0,0,0,.8);text-wrap:balance;overflow-wrap:break-word}
+  .cap p{color:rgba(255,255,255,.92);font-size:clamp(1rem,.6vw + .8rem,1.28rem);margin:12px 0 0;text-shadow:0 2px 20px rgba(0,0,0,.9)}
+  .scroll-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:20;color:rgba(255,255,255,.65);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:8px;transition:opacity .4s}
+  .mouse{width:22px;height:34px;border:2px solid rgba(255,255,255,.5);border-radius:12px;position:relative}
+  .mouse::after{content:"";position:absolute;top:6px;left:50%;transform:translateX(-50%);width:3px;height:6px;border-radius:2px;background:var(--accent);animation:wheel 1.5s infinite}
+  @keyframes wheel{0%{opacity:0;top:6px}30%{opacity:1}60%{opacity:1;top:16px}100%{opacity:0;top:16px}}
+
+  /* ---------- VALUE ---------- */
+  .value{padding:110px 24px;background:var(--dark-2);text-align:center}
+  .value .wrap{max-width:1080px;margin:0 auto}
+  .value .eyebrow{color:var(--accent);font-size:.8rem;letter-spacing:.24em;text-transform:uppercase;font-weight:700}
+  .value h2{font-size:clamp(1.7rem,4vw + .5rem,3.4rem);margin:12px 0 10px;text-wrap:balance}
+  .value .sub{color:var(--muted);max-width:600px;margin:0 auto 54px}
+  .vgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .vcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:36px 28px;text-align:left;transition:transform .4s var(--ease),border-color .4s,opacity .6s;opacity:0;transform:translateY(34px)}
+  .vcard.in{opacity:1;transform:none}
+  .vcard:hover{transform:translateY(-6px);border-color:transparent}
+  .vcard .i{font-size:2rem;margin-bottom:14px}
+  .vcard h3{font-size:1.5rem;margin-bottom:8px}
+  .vcard p{color:var(--muted);font-size:.95rem}
+
+  /* ---------- QUIZ ---------- */
+  .quiz-sec{padding:110px 24px 130px;background:radial-gradient(60% 50% at 50% 0%,rgba(255,87,34,.12),transparent 60%),var(--dark)}
+  .quiz-wrap{max-width:720px;margin:0 auto}
+  .quiz-head{text-align:center;margin-bottom:40px}
+  .quiz-head .eyebrow{color:var(--accent);font-size:.8rem;letter-spacing:.24em;text-transform:uppercase;font-weight:700}
+  .quiz-head h2{font-size:clamp(1.8rem,4vw + .6rem,3.8rem);margin:12px 0 8px;text-wrap:balance}
+  .quiz-head p{color:var(--muted)}
+  .quiz-card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:38px 34px;box-shadow:0 30px 80px rgba(0,0,0,.4)}
+  .qbar{height:6px;background:rgba(255,255,255,.08);border-radius:6px;overflow:hidden;margin-bottom:8px}
+  .qbar span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:20%;transition:width .4s var(--ease)}
+  .qstep-label{font-size:.78rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:24px;display:block}
+  .step{display:none;animation:fade .45s var(--ease)}
+  .step.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  .step h3{font-size:clamp(1.35rem,3vw + .6rem,1.9rem);margin-bottom:6px}
+  .step .hint{color:var(--muted);font-size:.92rem;margin-bottom:22px}
+  .opts{display:grid;gap:12px}
+  .opts.two{grid-template-columns:1fr 1fr}
+  .opt{display:flex;align-items:center;gap:14px;background:var(--dark-2);border:2px solid var(--line);border-radius:14px;padding:18px;cursor:pointer;transition:.25s var(--ease)}
+  .opt:hover{border-color:var(--accent-2);transform:translateY(-2px)}
+  .opt.sel{border-color:var(--accent);background:rgba(255,87,34,.1)}
+  .opt .emo{font-size:1.6rem;width:34px;text-align:center}
+  .opt .txt b{display:block;font-size:1.06rem}
+  .opt .txt small{color:var(--muted);font-size:.85rem}
+  .opt .chk{margin-left:auto;width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.8rem;transition:.2s}
+  .opt.sel .chk{background:var(--accent);border-color:var(--accent)}
+  .field{margin-bottom:16px}
+  .field label{display:block;font-size:.82rem;color:var(--muted);margin-bottom:7px}
+  .field input{width:100%;background:var(--dark-2);border:2px solid var(--line);border-radius:12px;padding:14px 16px;color:var(--text);font-size:1rem;font-family:inherit;transition:.2s}
+  .field input:focus{outline:none;border-color:var(--accent)}
+  .field input::placeholder{color:#5b616b}
+  .qnav{display:flex;justify-content:space-between;gap:12px;margin-top:28px}
+  .btn{font-family:inherit;font-weight:600;font-size:.98rem;padding:15px 26px;border-radius:12px;border:2px solid transparent;cursor:pointer;transition:.25s var(--ease);display:inline-flex;align-items:center;gap:8px}
+  .btn-primary{background:var(--accent);color:#fff}
+  .btn-primary:hover{background:var(--accent-2);transform:translateY(-2px);box-shadow:0 12px 26px rgba(255,87,34,.35)}
+  .btn-ghost{background:transparent;border-color:var(--line);color:var(--text)}
+  .btn-ghost:hover{border-color:#fff}
+  .btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+  .btn-wa{background:#25d366;color:#0b0d11;width:100%;justify-content:center;font-size:1.1rem;padding:18px}
+  .btn-wa:hover{background:#2eea72;transform:translateY(-2px)}
+  .review{list-style:none;margin:18px 0 26px;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .review li{display:flex;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line);font-size:.96rem}
+  .review li:last-child{border-bottom:none}
+  .review li span{color:var(--muted)}
+  .review li b{text-align:right}
+
+  footer{background:#070809;padding:50px 24px 30px;text-align:center;color:var(--muted);font-size:.85rem}
+  footer .logo{font-family:'Barlow Condensed';font-weight:700;font-size:1.5rem;color:#fff;margin-bottom:8px}
+  footer .logo .mk{color:var(--accent)}
+
+  @media(prefers-reduced-motion:reduce){
+    #cine{height:auto}.stage{position:relative;height:auto;min-height:100vh}
+    .zoomwrap{transform:none!important}
+    .cap{position:relative;opacity:1;transform:none;bottom:auto;padding:40px 24px}
+  }
+  @media(max-width:760px){
+    .vgrid{grid-template-columns:1fr}
+    .quiz-card{padding:28px 22px}
+    .opts.two{grid-template-columns:1fr}
+  }
+  /* mobile: vídeo vertical 9:16 dedicado, legendas maiores na base */
+  @media(max-width:760px){
+    .nav-links li.link{display:none}
+    header{padding:12px 0}
+    .stories{top:66px;padding:0 12px;gap:4px}
+    .film-el,.hero-photo{object-position:50% 50%}
+    .cap,.cap.right{top:auto;left:16px;right:16px;width:auto;text-align:center;
+      bottom:calc(9vh + env(safe-area-inset-bottom));transform:translateY(24px)}
+    .cap.show{transform:none}
+    .cap h1{font-size:clamp(2.3rem,9.5vw,3.2rem)}
+    .cap h2{font-size:clamp(1.7rem,7.5vw,2.5rem)}
+    .cap p{font-size:1.02rem;line-height:1.5}
+    .cap .eyebrow{font-size:.7rem;letter-spacing:.2em}
+    /* no celular o texto fica na base → o gradiente vira de baixo pra cima */
+    .scrim.left,.scrim.right{background:linear-gradient(0deg,rgba(0,0,0,.72) 0%,rgba(0,0,0,.35) 28%,transparent 58%)}
+    .scroll-hint{bottom:calc(10px + env(safe-area-inset-bottom))}
+    .head h2{font-size:clamp(1.8rem,7vw,2.4rem)}
+    .btn{width:auto}
+    .qnav{position:sticky;bottom:0;background:var(--card);padding:10px 0 calc(6px + env(safe-area-inset-bottom));margin:28px -16px -24px;padding-left:16px;padding-right:16px;border-top:1px solid var(--line)}
+  }
+  @media(max-width:480px){
+    .logo{font-size:1.35rem}
+    .nav-cta{padding:8px 14px;font-size:.8rem}
+    .value{padding:80px 18px}
+    .quiz-sec{padding:80px 16px 100px}
+    .quiz-card{padding:24px 16px}
+    .opt{padding:14px}
+    .btn{padding:13px 18px;font-size:.92rem}
+    .review li{padding:12px 14px;font-size:.9rem}
+  }
+</style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></symbol>
+  <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M20 12V8H6a2 2 0 0 1 0-4h12v4"/><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 24 24"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></symbol>
+  <symbol id="i-gauge" viewBox="0 0 24 24"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></symbol>
+  <symbol id="i-caldays" viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/></symbol>
+  <symbol id="i-inf" viewBox="0 0 24 24"><path d="M12 12c-2-2.67-4-4-6-4a4 4 0 1 0 0 8c2 0 4-1.33 6-4Zm0 0c2 2.67 4 4 6 4a4 4 0 0 0 0-8c-2 0-4 1.33-6 4Z"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
+  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.12 2.12 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.12 2.12 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.12 2.12 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.12 2.12 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.12 2.12 0 0 0 1.597-1.16z"/></symbol>
+  <symbol id="i-knife" viewBox="0 0 24 24"><path d="M2 2s6 2 9 5 5 9 5 9l6 6"/><path d="M11 7c-1 3-3 5-6 6l4 4c3-1 5-3 6-6"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35a1 1 0 0 0-.78-.38H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></symbol>
+  <symbol id="i-shop" viewBox="0 0 24 24"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/></symbol>
+</svg>
+<div class="stories" id="stories" aria-hidden="true"></div>
+
+<header>
+  <div class="nav">
+    <a class="logo" href="#cine">Boi de <span class="mk">Engenho</span></a>
+    <ul class="nav-links">
+      <li class="link"><a href="#cine" data-p="0">Início</a></li>
+      <li class="link"><a href="#cine" data-p="0.2">Origem</a></li>
+      <li class="link"><a href="#cine" data-p="0.4">No pasto</a></li>
+      <li class="link"><a href="#cine" data-p="0.58">Os cortes</a></li>
+      <li class="link"><a href="#cine" data-p="0.76">O fogo</a></li>
+      <li class="link"><a href="#cotar">Pedido</a></li>
+      <li><a class="nav-cta" id="navWa" target="_blank" rel="noopener" href="#"><svg class="ico"><use href="#i-chat"/></svg>WhatsApp</a></li>
+    </ul>
+  </div>
+</header>
+
+<!-- ===================== O FILME (scroll = tempo) ===================== -->
+<section id="cine">
+  <div class="stage">
+    <!-- Fallback: sua foto com zoom (usado se o filme não carregar) -->
+    <div class="zoomwrap" id="zoomwrap">
+      <div class="fallback-bg"></div>
+      <img class="hero-photo" id="heroPhoto" alt="">
+    </div>
+    <!-- O filme (AD gerado no Higgsfield) -->
+    <video class="film-el" id="film" muted playsinline preload="auto"></video>
+
+    <div class="grain"></div>
+    <div class="scrim left" id="scrimL"></div>
+    <div class="scrim right" id="scrimR"></div>
+    <div class="topfade"></div>
+
+    <!-- Legendas: faixas contíguas (o texto troca na hora; o vídeo segue o movimento) -->
+    <div class="cap" data-from="0" data-to="0.16">
+      <span class="eyebrow">Boi de Engenho • Carnes especiais — Maceió</span>
+      <h1>Do pasto à<br><span>sua mesa.</span></h1>
+    </div>
+    <div class="cap" data-from="0.16" data-to="0.33">
+      <h2>Três gerações<br>no mesmo chão.</h2>
+      <p>Desde 2016, uma cooperativa que carrega o legado dos engenhos do Nordeste — do criador direto pra você.</p>
+    </div>
+    <div class="cap" data-from="0.33" data-to="0.5">
+      <h2>Criado solto,<br><span>no capim.</span></h2>
+      <p>Bem-estar animal, produção rastreada e certificação Brazil Beef Quality. Carne com origem de verdade.</p>
+    </div>
+    <div class="cap right" data-from="0.5" data-to="0.68">
+      <h2>Mais de 50 cortes especiais.</h2>
+      <p>Do churrasco do fim de semana ao dia a dia — até a linha Taurus Reserva, de fêmeas Angus selecionadas.</p>
+    </div>
+    <div class="cap right" data-from="0.68" data-to="0.85">
+      <h2>O fogo faz<br><span>a festa.</span></h2>
+      <p>Carne certa não precisa de segredo: só brasa, sal grosso e gente boa em volta.</p>
+    </div>
+    <div class="cap right" data-from="0.85" data-to="1.01">
+      <span class="eyebrow">Hoje tem churrasco</span>
+      <h2>Bora montar <span>seu pedido?</span></h2>
+      <p>Escolha em 1 minuto e finalize direto no nosso WhatsApp. ↓</p>
+    </div>
+
+    <div class="scroll-hint" id="hint"><div class="mouse"></div>Role para viver a história</div>
+  </div>
+</section>
+
+<!-- ===================== VALUE ===================== -->
+<section class="value" id="vantagens">
+  <div class="wrap">
+    <span class="eyebrow">Por que Boi de Engenho</span>
+    <h2>Carne com origem, do criador pra você</h2>
+    <p class="sub">A gente cuida de tudo: da criação no pasto à embalagem — pra chegar na sua churrasqueira do jeito certo.</p>
+    <div class="vgrid">
+      <div class="vcard"><svg class="ico"><use href="#i-leaf"/></svg><h3>Criado a pasto</h3><p>Bem-estar animal de verdade, três gerações de produtores rurais no comando.</p></div>
+      <div class="vcard"><svg class="ico"><use href="#i-shield"/></svg><h3>Certificado e rastreado</h3><p>Selo Brazil Beef Quality e rastreabilidade da fazenda até o balcão.</p></div>
+      <div class="vcard"><svg class="ico"><use href="#i-knife"/></svg><h3>+50 cortes especiais</h3><p>Do dia a dia à linha Taurus Reserva (Angus) e aos embutidos Facilita.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== QUIZ ===================== -->
+<section class="quiz-sec" id="cotar">
+  <div class="quiz-wrap">
+    <div class="quiz-head">
+      <span class="eyebrow">Pedido em 1 minuto</span>
+      <h2>Monte seu churrasco</h2>
+      <p>Escolha as opções e envie tudo pronto pro nosso WhatsApp.</p>
+    </div>
+    <div class="quiz-card">
+      <div class="qbar"><span id="qbar"></span></div>
+      <span class="qstep-label" id="qstepLabel">Passo 1 de 5</span>
+
+      <div class="step active" data-step="1">
+        <h3>O que você procura hoje?</h3>
+        <p class="hint">A gente monta a seleção certa pro seu momento.</p>
+        <div class="opts" id="optCC">
+          <div class="opt" data-val="Churrasco de fim de semana"><svg class="ico"><use href="#i-flame"/></svg><span class="txt"><b>Churrasco</b><small>Picanha, costela, linguiça e cia</small></span><span class="chk">✓</span></div>
+          <div class="opt" data-val="Carnes do dia a dia"><svg class="ico"><use href="#i-cal"/></svg><span class="txt"><b>Dia a dia</b><small>Cortes pro almoço da semana</small></span><span class="chk">✓</span></div>
+          <div class="opt" data-val="Linha Taurus Reserva (Angus premium)"><svg class="ico"><use href="#i-star"/></svg><span class="txt"><b>Taurus Reserva</b><small>Angus selecionadas, padrão premium</small></span><span class="chk">✓</span></div>
+          <div class="opt" data-val="Embutidos Facilita"><svg class="ico"><use href="#i-knife"/></svg><span class="txt"><b>Linha Facilita</b><small>Embutidos 100% da nossa carne</small></span><span class="chk">✓</span></div>
+        </div>
+      </div>
+
+      <div class="step" data-step="2">
+        <h3>Pra quantas pessoas?</h3>
+        <p class="hint">Ajuda a gente a sugerir a quantidade certa.</p>
+        <div class="opts" id="optPeriodo">
+          <div class="opt" data-val="Até 5 pessoas"><svg class="ico"><use href="#i-sun"/></svg><span class="txt"><b>Até 5</b><small>Almoço em família</small></span><span class="chk">✓</span></div>
+          <div class="opt" data-val="6 a 10 pessoas"><svg class="ico"><use href="#i-cal"/></svg><span class="txt"><b>6 a 10</b><small>Churrasco de sábado</small></span><span class="chk">✓</span></div>
+          <div class="opt" data-val="11 a 20 pessoas"><svg class="ico"><use href="#i-caldays"/></svg><span class="txt"><b>11 a 20</b><small>Reunião grande</small></span><span class="chk">✓</span></div>
+          <div class="opt" data-val="Mais de 20 / evento"><svg class="ico"><use href="#i-inf"/></svg><span class="txt"><b>Evento</b><small>Mais de 20 pessoas</small></span><span class="chk">✓</span></div>
+        </div>
+      </div>
+
+      <div class="step" data-step="3">
+        <h3>Como prefere receber?</h3>
+        <p class="hint">Estamos no Poço, em Maceió.</p>
+        <div class="opts two" id="optModalidade">
+          <div class="opt" data-val="Entrega em Maceió"><svg class="ico"><use href="#i-truck"/></svg><span class="txt"><b>Entrega</b><small>Receba em casa</small></span><span class="chk">✓</span></div>
+          <div class="opt" data-val="Retirada na loja (Poço)"><svg class="ico"><use href="#i-shop"/></svg><span class="txt"><b>Retirada</b><small>R. Dr. José Milton Correia, 55c</small></span><span class="chk">✓</span></div>
+        </div>
+      </div>
+
+      <div class="step" data-step="4">
+        <h3>Seus dados</h3>
+        <p class="hint">Pra gente já te atender com o pedido encaminhado.</p>
+        <div class="field"><label>Nome</label><input id="fNome" type="text" placeholder="Seu nome"></div>
+        <div class="field"><label>WhatsApp (com DDD)</label><input id="fZap" type="tel" inputmode="numeric" placeholder="(82) 90000-0000"></div>
+        <div class="field"><label>Bairro / cidade</label><input id="fCidade" type="text" placeholder="Ex: Maceió — Ponta Verde"></div>
+      </div>
+
+      <div class="step" data-step="5">
+        <h3>Confira e envie</h3>
+        <p class="hint">Vamos abrir seu WhatsApp com o pedido pronto pra finalizar.</p>
+        <ul class="review" id="review"></ul>
+        <a id="waBtn" class="btn btn-wa" target="_blank" rel="noopener"><svg class="ico"><use href="#i-chat"/></svg> Enviar pedido no WhatsApp</a>
+      </div>
+
+      <!-- NAV -->
+        <button class="btn btn-ghost" id="prevBtn" style="visibility:hidden">← Voltar</button>
+        <button class="btn btn-primary" id="nextBtn" disabled>Continuar →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="logo">Boi de <span class="mk">Engenho</span></div>
+  <p>Carnes especiais em Maceió — AL · R. Dr. José Milton Correia, 55c — Poço · @boideengenhocarnes</p>
+  <p style="margin-top:8px;opacity:.6">Do pasto à sua mesa, desde 2016.</p>
+</footer>
+
+<script>
+  /* ============ CONFIG ============ */
+  const WHATSAPP = "558234359147"; // Boi de Engenho — Maceió
+  // O AD gerado no Higgsfield (Kling 3.0, 10s). Se você baixar o MP4 e salvar como
+  // film.mp4 na pasta do site, ele tem prioridade (carrega mais rápido e não depende do CDN).
+  const FILM_LOCAL  = "film.mp4";
+  // Filme "do pasto à mesa" (gerado no Higgsfield)
+  const FILM_REMOTE = "https://d8j0ntlcm91z4.cloudfront.net/user_3AWtibA40kU8CXuL4OPvkUq3Ruq/hf_20260720_160046_d8516365-5518-44c6-8c1e-e5c413944d88.mp4";
+  const FILM_REMOTE_SD = "https://d8j0ntlcm91z4.cloudfront.net/user_3AWtibA40kU8CXuL4OPvkUq3Ruq/hf_20260720_155747_fc153f1a-2873-41f0-8648-39e10e44fcae.mp4";
+  // Versão VERTICAL 9:16 (celular): leve primeiro, HD de reserva
+  const FILM_MOBILE_REMOTE = "https://d8j0ntlcm91z4.cloudfront.net/user_3AWtibA40kU8CXuL4OPvkUq3Ruq/hf_20260720_160117_d96a5bf3-40e8-4fde-9781-c210f4ce5984.mp4";
+  const FILM_MOBILE_HD = "https://d8j0ntlcm91z4.cloudfront.net/user_3AWtibA40kU8CXuL4OPvkUq3Ruq/hf_20260720_160354_de281e2c-645c-4f08-8210-28230443b2e8.mp4";
+  const HERO_MOBILE_REMOTE = "https://d8j0ntlcm91z4.cloudfront.net/user_3AWtibA40kU8CXuL4OPvkUq3Ruq/hf_20260720_155803_5003f4ec-b945-420c-ae4a-162cd221bb3b.png";
+  const IS_MOBILE = matchMedia('(max-width:760px)').matches || innerHeight>innerWidth;
+  const R_MAIN = (IS_MOBILE && FILM_MOBILE_REMOTE.startsWith('http')) ? FILM_MOBILE_REMOTE : FILM_REMOTE;
+  const R_SD   = (IS_MOBILE && FILM_MOBILE_REMOTE.startsWith('http')) ? FILM_MOBILE_HD : FILM_REMOTE_SD;
+  const HERO_LOCAL  = "hero.jpg";
+  const HERO_REMOTE = "https://d8j0ntlcm91z4.cloudfront.net/user_3AWtibA40kU8CXuL4OPvkUq3Ruq/hf_20260720_155620_f7045c03-186f-4763-8345-ad7db1629011.png";
+
+  /* ============ FILM SCRUB ENGINE (técnica da skill scroll-world) ============ */
+  const cine=document.getElementById('cine');
+  const film=document.getElementById('film');
+  const zoomwrap=document.getElementById('zoomwrap');
+  const heroPhoto=document.getElementById('heroPhoto');
+  const caps=[...document.querySelectorAll('.cap')];
+  const hint=document.getElementById('hint');
+  let filmReady=false, targetT=0, currentT=0, seeking=false;
+
+  // monta as barrinhas de stories (uma por etapa da história)
+  const storiesEl=document.getElementById('stories');
+  caps.forEach(()=>{const s=document.createElement('span');s.appendChild(document.createElement('i'));storiesEl.appendChild(s);});
+  const segs=[...storiesEl.children];
+  let lastAct=-1;
+
+  // Foto: tenta hero.jpg local; senão usa a foto original no CDN do Higgsfield
+  const HERO_R=(IS_MOBILE && HERO_MOBILE_REMOTE.startsWith('http'))?HERO_MOBILE_REMOTE:HERO_REMOTE;
+  heroPhoto.onerror=()=>{heroPhoto.onerror=()=>{heroPhoto.style.display='none'};heroPhoto.src=HERO_R;};
+  heroPhoto.src=HERO_LOCAL;
+  film.poster=HERO_R;
+
+  // Botão do menu → direto pro WhatsApp
+  document.getElementById('navWa').href='https://wa.me/'+WHATSAPP+'?text='+
+    encodeURIComponent('Olá! Vim pelo site do Boi de Engenho e quero fazer um pedido.');
+
+  // Fases do scroll no menu: clique pula pra fase; destaque acompanha a rolagem
+  const phaseLinks=[...document.querySelectorAll('.nav-links a[data-p]')];
+  phaseLinks.forEach(a=>a.addEventListener('click',e=>{
+    e.preventDefault();
+    const p=parseFloat(a.dataset.p);
+    const total=cine.offsetHeight-innerHeight;
+    window.scrollTo({top:cine.offsetTop+p*total+2,behavior:'smooth'});
+  }));
+
+  // "Priming" pro iOS/Android: um play+pause mudo libera os seeks via scroll.
+  // Sem isso, o Safari mostra o poster mas ignora currentTime (vídeo "parado").
+  let primed=false;
+  function primeFilm(){
+    if(primed||!film.src)return;
+    const p=film.play();
+    if(p&&p.then)p.then(()=>{film.pause();primed=true;try{film.currentTime=0.01;}catch(e){}}).catch(()=>{});
+  }
+  ['touchstart','click','scroll'].forEach(ev=>
+    window.addEventListener(ev,primeFilm,{once:true,passive:true}));
+
+  function armFilm(){
+    film.addEventListener('loadedmetadata',()=>{
+      filmReady=true;
+      film.classList.add('on');
+      document.body.classList.add('film-on');
+      zoomwrap.style.display='none';
+      primeFilm();
+      rafLoop();
+    },{once:true});
+    film.addEventListener('seeking',()=>seeking=true);
+    film.addEventListener('seeked',()=>seeking=false);
+  }
+  armFilm();
+
+  // Cadeia de carregamento robusta:
+  //  - servido em http(s): tenta film.mp4 local como blob (scrub perfeito em qualquer host)
+  //  - aberto como arquivo (file://) ou sem local: usa o vídeo DIRETO (não precisa de CORS)
+  //  - se o direto local falhar → CDN direto; se tudo falhar → foto com zoom
+  function loadAsBlob(src){
+    return fetch(src).then(r=>{
+      if(!r.ok) throw new Error('http '+r.status);
+      return r.blob();
+    }).then(b=>{film.src=URL.createObjectURL(b);});
+  }
+  function loadDirect(src,next){
+    const onerr=()=>{film.removeEventListener('error',onerr);if(next)next();};
+    film.addEventListener('error',onerr);
+    film.src=src;
+    film.load();
+  }
+  if(location.protocol.startsWith('http')){
+    loadAsBlob(FILM_LOCAL)
+      .catch(()=>loadAsBlob(R_MAIN))
+      .catch(()=>loadDirect(R_MAIN,()=>loadDirect(R_SD,null)));
+  }else{
+    // aberto com duplo clique (file://): fetch não funciona; vídeo direto funciona
+    loadDirect(FILM_LOCAL,()=>loadDirect(R_MAIN,()=>loadDirect(R_SD,null)));
+  }
+
+  function sceneProgress(){
+    const rect=cine.getBoundingClientRect();
+    const total=cine.offsetHeight-innerHeight;
+    return Math.min(Math.max(-rect.top/total,0),1);
+  }
+  // Motor híbrido: o scroll define o ALVO e o vídeo TOCA até lá (nunca congela).
+  // Avançando: reprodução nativa (1x–4x conforme a distância) → todo frame renderiza,
+  // e mesmo que a pessoa role rápido e pare, o movimento se conclui sozinho.
+  // Retrocedendo: seeks suavizados (vídeo não toca de trás pra frente).
+  function rafLoop(){
+    if(filmReady){
+      const dur=Math.max(film.duration-0.05,0);
+      targetT=sceneProgress()*dur;
+      const gap=targetT-film.currentTime;
+      if(gap>0.2){
+        film.playbackRate=Math.min(4,1+gap*1.2);
+        if(film.paused)film.play().catch(()=>{});
+      }else{
+        if(!film.paused)film.pause();
+        if(Math.abs(gap)>0.033&&!seeking){
+          try{film.currentTime=film.currentTime+gap*0.22;}catch(e){}
+        }
+      }
+      requestAnimationFrame(rafLoop);
+    }
+  }
+  function onScroll(){
+    const y=window.scrollY;
+    const p=sceneProgress();
+    if(!filmReady){
+      const scale=1+p*1.65, tx=p*-4, ty=p*2;
+      zoomwrap.style.transform=`translate(${tx}%,${ty}%) scale(${scale})`;
+    }
+    let side=null;
+    caps.forEach(c=>{
+      const f=parseFloat(c.dataset.from),t=parseFloat(c.dataset.to);
+      const on=p>=f&&p<t;
+      c.classList.toggle('show',on);
+      if(on) side=c.classList.contains('right')?'right':'left';
+    });
+    scrimL.classList.toggle('on',side==='left');
+    scrimR.classList.toggle('on',side==='right');
+    // fase ativa no menu (só dentro da seção do filme)
+    const inCine=y>=cine.offsetTop&&y<cine.offsetTop+cine.offsetHeight-innerHeight+2;
+    let act=null;
+    if(inCine){phaseLinks.forEach(a=>{if(p>=parseFloat(a.dataset.p)-0.01)act=a;});}
+    phaseLinks.forEach(a=>a.classList.toggle('act',a===act));
+
+    // stories: cada barrinha preenche na sua etapa; pulso quando troca de capítulo
+    document.body.classList.toggle('in-cine',inCine||y<cine.offsetTop+10);
+    let actIdx=-1;
+    caps.forEach((c,i)=>{
+      const f=parseFloat(c.dataset.from),t=parseFloat(c.dataset.to);
+      const fill=Math.min(Math.max((p-f)/(t-f),0),1);
+      segs[i].firstChild.style.width=(fill*100)+'%';
+      if(p>=f&&p<t)actIdx=i;
+    });
+    segs.forEach((s,i)=>s.classList.toggle('act',i===actIdx));
+    if(actIdx!==lastAct&&actIdx>=0){
+      const s=segs[actIdx];
+      s.classList.remove('tick');void s.offsetWidth;s.classList.add('tick');
+      lastAct=actIdx;
+    }
+    hint.style.opacity=p<0.05?'1':'0';
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('resize',onScroll);
+  onScroll();
+
+  /* reveal cards */
+  const vio=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');vio.unobserve(x.target)}}),{threshold:.2});
+  document.querySelectorAll('.vcard').forEach((c,i)=>{c.style.transitionDelay=(i*0.1)+'s';vio.observe(c)});
+
+  /* ============ QUIZ ============ */
+  const state={ccPref:'',periodo:'',modalidade:'',nome:'',zap:'',cidade:''};
+  let step=1; const TOTAL=5;
+  const stepsEl=[...document.querySelectorAll('.step')];
+  const nextBtn=document.getElementById('nextBtn');
+  const prevBtn=document.getElementById('prevBtn');
+  const qbar=document.getElementById('qbar');
+  const qstepLabel=document.getElementById('qstepLabel');
+
+  let advancing=false;
+  function bindOpts(id,key,extra){
+    document.querySelectorAll('#'+id+' .opt').forEach(o=>{
+      o.addEventListener('click',()=>{
+        if(advancing)return;
+        o.parentElement.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));
+        o.classList.add('sel'); state[key]=o.dataset.val;
+        if(extra)extra(o); validate();
+        // clicou → já avança pra próxima pergunta (com um respiro pra ver a seleção)
+        advancing=true;
+        setTimeout(()=>{advancing=false;
+          if(step<TOTAL&&stepValid(step)){step++;render();
+            document.getElementById('cotar').scrollIntoView({behavior:'smooth',block:'start'});}
+        },320);
+      });
+    });
+  }
+  bindOpts('optCC','ccPref'); bindOpts('optPeriodo','periodo'); bindOpts('optModalidade','modalidade');
+  ['fNome','fZap','fCidade'].forEach(id=>document.getElementById(id).addEventListener('input',validate));
+
+  function stepValid(s){
+    if(s===1)return !!state.ccPref;
+    if(s===2)return !!state.periodo;
+    if(s===3)return !!state.modalidade;
+    if(s===4)return fNome.value.trim()&&fZap.value.trim();
+    return true;
+  }
+  function validate(){nextBtn.disabled=!stepValid(step);}
+  function render(){
+    stepsEl.forEach(s=>s.classList.toggle('active',+s.dataset.step===step));
+    qbar.style.width=(step/TOTAL*100)+'%';
+    qstepLabel.textContent='Passo '+step+' de '+TOTAL;
+    prevBtn.style.visibility=step>1?'visible':'hidden';
+    nextBtn.style.display=step===TOTAL?'none':'inline-flex';
+    if(step===TOTAL)buildReview();
+    validate();
+  }
+  nextBtn.addEventListener('click',()=>{
+    if(step===4){state.nome=fNome.value.trim();state.zap=fZap.value.trim();state.cidade=fCidade.value.trim();}
+    if(step<TOTAL&&stepValid(step)){step++;render();document.getElementById('cotar').scrollIntoView({behavior:'smooth'});}
+  });
+  prevBtn.addEventListener('click',()=>{if(step>1){step--;render();document.getElementById('cotar').scrollIntoView({behavior:'smooth'});}});
+
+  function buildReview(){
+    const rows=[
+      ['Seleção',state.ccPref],
+      ['Pessoas',state.periodo],['Recebimento',state.modalidade],
+      ['Nome',state.nome],['WhatsApp',state.zap],['Bairro',state.cidade||'—']
+    ];
+    document.getElementById('review').innerHTML=rows.map(x=>`<li><span>${x[0]}</span><b>${x[1]||'—'}</b></li>`).join('');
+    const msg=
+`Olá! Vim pelo site do Boi de Engenho e quero montar um pedido.
+
+• Seleção: ${state.ccPref}
+• Pessoas: ${state.periodo}
+• Recebimento: ${state.modalidade}
+
+Meus dados:
+• Nome: ${state.nome}
+• WhatsApp: ${state.zap}
+• Bairro: ${state.cidade||'-'}
+
+Podem me ajudar com sugestões e valores?`;
+    document.getElementById('waBtn').href='https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(msg);
+  }
+  render();
+</script>
+</body>
+</html>
